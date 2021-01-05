@@ -1,23 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+
+  const [cpuLoadAvg, setCpuLoadAvg] = useState({ loadAvg: 0, timestamp : Date.now() });
+
+  useEffect(() => {
+    fetch('/api/cpu')
+      .then((response: Response) => response.json())
+      .then((cpuLoadAvg) => {
+        setCpuLoadAvg(cpuLoadAvg);
+      });
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          <code>{cpuLoadAvg.loadAvg} || {cpuLoadAvg.timestamp}</code>
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
