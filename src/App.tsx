@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { CpuPollingService } from './services';
 import './App.css';
 
 function App() {
-  const [cpuLoadAvg, setCpuLoadAvg] = useState({ loadAvg: 0, timestamp : Date.now() });
-
-  const updateData = () => {
-    fetch('/api/cpu')
-      .then((response: Response) => response.json())
-      .then((cpuLoadAvg) => {
-        setCpuLoadAvg(cpuLoadAvg);
-        setTimeout(() => updateData(), 5000);
-      });
-  };
+  const [cpuLoadAvg, setCpuLoadRecord] = useState({ loadAvg: 0, timestamp : Date.now() });
 
   useEffect(() => {
-    updateData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    const service = new CpuPollingService(5000);
+    service.subscribe((cpuLoadRecord) => setCpuLoadRecord(cpuLoadRecord));
+    service.subscribe(console.log);
   }, []);
 
   return (
