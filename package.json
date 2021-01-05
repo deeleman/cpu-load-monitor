@@ -25,7 +25,7 @@
     "start:server": "node ./server",
     "dev": "concurrently \"yarn start:server\" \"react-scripts start\"",
     "build": "react-scripts build",
-    "build:server": "react-scripts build && yarn start:server",
+    "build:ci": "react-scripts build && yarn start:server",
     "test": "react-scripts test",
     "test:server": "jest ./server/**/*.test.js",
     "test:all": "yarn test:server && yarn test --watchAll=false"
