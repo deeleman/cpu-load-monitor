@@ -1,5 +1,6 @@
 /**
  * Http Status mapping enum
+ * @internal
  */
 enum HttpStatus {
   Success     = 200,
@@ -9,7 +10,9 @@ enum HttpStatus {
 }
 
 /**
- * General purpose network client for submitting GET request to a given endpoint URL with extended support for typed responses
+ * @description
+ * General purpose network client for submitting GET request to a given endpoint URL with
+ * extended support for typed responses.
  * @param endpointUrl URL of remote resource
  * @returns Typed promise with response output, featuring error handling functionality
  */

@@ -28,7 +28,7 @@
     "build:ci": "react-scripts build && yarn start:server",
     "test": "react-scripts test",
     "test:server": "jest ./server/**/*.test.js",
-    "test:all": "yarn test:server && yarn test --watchAll=false"
+    "test:all": "yarn test:server && yarn test --watchAll=false --coverage"
   },
   "repository": {
     "type": "git",
@@ -64,6 +64,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "resetMocks": false
   },
   "proxy": "http://localhost:8080"
 }
