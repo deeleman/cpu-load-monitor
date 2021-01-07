@@ -1,7 +1,23 @@
 import { AlertSettings, alertSettings, CpuLoadRecord, AlertNotification, AlertNotificationType, Observable } from '../models';
 
-export class AlertNotificationsService implements Observable<AlertNotification> {
-  private hasNotifiedHeavyLoadAlready = false;
+/**
+ * @description
+ * Class service exposing an observable interface that allows subscribers to receive alert notifications
+ * about the current load state of the host CPU. Such notifications are the result of digesting
+ * CPU load records passed via the `pipe()` API method into the notification pipeline. The overall business
+ * logic dictates that notifications will kick off once heavy CPU load is informed via successive CPU load
+ * records after the time window defined by the settings. Recovery alert notifications will only be emitted
+ * after a pre-existing heavy load notification, never after a non notified heavy load temporary state.
+ * 
+ * Settings can be defined via the constructor or by running the `updateSettings()` API method. If not defined
+ * the system will fetch the default settings as configured in the configuration manifest.
+ *
+ * @see [CPU_LOAD_RECOVERY_THRESHOLD_MS](../configuration.ts)
+ * @see [CPU_OVERLOAD_ALERT_THRESHOLD_MS](../configuration.ts)
+ * @see [LOAD_AVERAGE_THRESHOLD](../configuration.ts)
+ */
+export class AlertsNotificationService implements Observable<AlertNotification> {
+  private isRecoveryAlertPending = false;
   private pivotalAlert: AlertNotification | undefined;
   private subscribers: Array<(notification: AlertNotification) => void> = [];
 
@@ -11,7 +27,7 @@ export class AlertNotificationsService implements Observable<AlertNotification> 
     this.settings = settings;
   }
 
-  add(cpuLoadRecord: CpuLoadRecord): void {
+  pipe(cpuLoadRecord: CpuLoadRecord): void {
     const cpuLoadRecordType = cpuLoadRecord.loadAvg >= this.settings.cpuLoadAverageThreshold ?
       AlertNotificationType.heavyLoad : 
       AlertNotificationType.recovery;
@@ -53,14 +69,16 @@ export class AlertNotificationsService implements Observable<AlertNotification> 
       this.settings.cpuOverloadAlertingThreshold :
       this.settings.cpuRecoveryNotificationThreshold;
     
-    const exceedsTimeThreshold = (cpuLoadRecord.timestamp - pivotalAlert.createdOn) >= timeThreshold;
+    const hasExceededTimeThreshold = (cpuLoadRecord.timestamp - pivotalAlert.createdOn) >= timeThreshold;
     const isHeavyLoadAlert = pivotalAlert.type === AlertNotificationType.heavyLoad;
-    const isRecoveryAfterHeavyLoadAlert = pivotalAlert.type === AlertNotificationType.recovery && this.hasNotifiedHeavyLoadAlready;
+    const isRecoveryAlert = pivotalAlert.type === AlertNotificationType.recovery && this.isRecoveryAlertPending;
 
-    const shouldEmitNotification = exceedsTimeThreshold && (isHeavyLoadAlert || isRecoveryAfterHeavyLoadAlert);
+    const shouldEmitNotification = hasExceededTimeThreshold && (isHeavyLoadAlert || isRecoveryAlert);
 
     if (shouldEmitNotification) {
       pivotalAlert.emittedOn = cpuLoadRecord.timestamp;
+    } else if (isHeavyLoadAlert) {
+      this.isRecoveryAlertPending = false;
     }
    
     return pivotalAlert;
@@ -68,8 +86,8 @@ export class AlertNotificationsService implements Observable<AlertNotification> 
 
   private emitNotification(notification: AlertNotification): void {
     this.subscribers.forEach((subscription) => subscription.call(null, notification));
-    if (notification.type === AlertNotificationType.heavyLoad && !this.hasNotifiedHeavyLoadAlready) {
-      this.hasNotifiedHeavyLoadAlready = true;
+    if (notification.type === AlertNotificationType.heavyLoad && !this.isRecoveryAlertPending) {
+      this.isRecoveryAlertPending = true;
     }
   }
 

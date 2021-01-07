@@ -3,6 +3,7 @@ import { CpuLoadRecord } from './cpu-load-record';
 export enum AlertNotificationType {
   heavyLoad,
   recovery,
+  
 }
 
 export interface AlertNotification {

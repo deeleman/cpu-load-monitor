@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { CpuPollingService, AlertNotificationsService } from './services';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { AlertNotification, CpuLoadRecord, Stack } from './models';
+import { AlertsNotificationService, CpuPollingService } from './services';
 
 function App() {
   const cpuLoadRecordsStack = new Stack<CpuLoadRecord>();
@@ -10,16 +10,16 @@ function App() {
 
   useEffect(() => {
     const cpuPollingService = new CpuPollingService();
-    const notificationsService = new AlertNotificationsService();
+    const notificationService = new AlertsNotificationService();
 
-    const notificationsSubscription = notificationsService.subscribe((notification) => {
+    const notificationsSubscription = notificationService.subscribe((notification) => {
       setNotification(notification);
     });
 
     const cpuPollingSubscription = cpuPollingService.subscribe((cpuLoadRecord) => {
       const cpuLoadRecords = cpuLoadRecordsStack.add(cpuLoadRecord);
       setCpuLoadRecords(cpuLoadRecords);
-      notificationsService.add(cpuLoadRecord);
+      notificationService.pipe(cpuLoadRecord);
     });
 
     return () => {

@@ -1,3 +1,3 @@
 export * from './helpers';
 export * from './cpu-polling.service';
-export * from './alert-notifications.service';
+export * from './alerts-notification.service';
