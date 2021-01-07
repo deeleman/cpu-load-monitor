@@ -19,23 +19,24 @@ const REFRESH_RATE_MS = 2000; // 10000;
  * `TIME_SERIES_EXPIRATION_LIMIT_MS`: The time window - in milliseconds - of
  * historical CPU load information to be visualized.
  */
-const TIME_SERIES_EXPIRATION_LIMIT_MS = 100000; // 600000;
+const TIME_SERIES_EXPIRATION_LIMIT_MS = 600000;
 
 /**
  * @description
- * `BUFFER_SIZE`: The application displays data that belongs in the `TIME_SERIES_EXPIRATION_LIMIT_MS`.
- * The amount of data will be also dictated by the `REFRESH_RATE_MS`, since the application is expected
+ * `BUFFER_SIZE`: The application displays data that falls within the `TIME_SERIES_EXPIRATION_LIMIT_MS` period.
+ * The amount of data to be displayed will also be dictated by the `REFRESH_RATE_MS`, since the application is expected
  * to visually render a {n} amount of CPU load entries, as follows:
  * 
  *   n = TIME_SERIES_EXPIRATION_LIMIT_MS / REFRESH_RATE_MS
  * 
  * Since both TIME_SERIES_EXPIRATION_LIMIT_MS or REFRESH_RATE_MS might eventually be edited by
  * the user, leading to data loss whenever the user shrinks the time window just to broaden it again, 
- * the `Stack` instance objects in use internally store a wider amount of records, depicted by `BUFFER_SIZE`, 
- * although the data rendered disregards this data. However, if the user constrains the time window and
- * expands it again, the Stack objects will still rely on the buffered data to ensure minimum data loss, if any.
+ * the `Stack` instance objects could internally store a wider amount of records, simply by setting up a larger
+ * `BUFFER_SIZE` value and constrainign the length of items in display thereafter. Therefore we can prevent
+ * undesired data loss if the user constrains the time window and expands it again, 
+ * since the Stack objects will still rely on the buffered data to limit the persisted data.
  * 
- * This POC does not feature currently a settings update UI feature, so `BUFFER_SIZE` is configured in 'strict mode'.
+ * This POC has `BUFFER_SIZE` configured in 'strict mode', though.
  * 
  * @example Use the following setup for override 'strict mode' and configure stacks to allocate up to 100 items.
  * 
