@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { CpuPollingService, NotificationsService } from './services';
+import { CpuPollingService, AlertNotificationsService } from './services';
 import './App.css';
-import { CpuLoadRecord, Stack } from './models';
+import { AlertNotification, CpuLoadRecord, Stack } from './models';
 
 function App() {
   const cpuLoadRecordsStack = new Stack<CpuLoadRecord>();
-  const [cpuLoadAvgStack, setCpuLoadRecordsStack] = useState<CpuLoadRecord[]>([{ loadAvg: 0, timestamp : Date.now(), timeLabel: '' }]);
+  const [cpuLoadRecords, setCpuLoadRecords] = useState<CpuLoadRecord[]>([]);
+  const [notification, setNotification] = useState<AlertNotification>();
 
   useEffect(() => {
-    const notificationsService = new NotificationsService();
-    const notificationsSubscription = notificationsService.subscribe(console.log);
-
     const cpuPollingService = new CpuPollingService();
+    const notificationsService = new AlertNotificationsService();
+
+    const notificationsSubscription = notificationsService.subscribe((notification) => {
+      setNotification(notification);
+    });
+
     const cpuPollingSubscription = cpuPollingService.subscribe((cpuLoadRecord) => {
+      const cpuLoadRecords = cpuLoadRecordsStack.add(cpuLoadRecord);
+      setCpuLoadRecords(cpuLoadRecords);
       notificationsService.add(cpuLoadRecord);
-      const stack = cpuLoadRecordsStack.add(cpuLoadRecord);
-      setCpuLoadRecordsStack(stack);
     });
 
     return () => {
@@ -29,6 +33,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>CPU Load Tail</h1>
+        <pre>{JSON.stringify(notification)}</pre>
         <table>
           <thead>
             <tr>
@@ -37,7 +42,7 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {cpuLoadAvgStack.map((cpuLoadItem, index) => (
+            {cpuLoadRecords.map((cpuLoadItem, index) => (
               <tr key={index}>
                 <td>{cpuLoadItem.loadAvg.toFixed(2)}</td>
                 <td>{cpuLoadItem.timeLabel}</td>

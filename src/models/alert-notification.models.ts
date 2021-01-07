@@ -1,12 +1,12 @@
 import { CpuLoadRecord } from './cpu-load-record';
 
-export enum NotificationType {
+export enum AlertNotificationType {
   heavyLoad,
   recovery,
 }
 
-export interface Notification {
-  type: NotificationType;
+export interface AlertNotification {
+  type: AlertNotificationType;
   createdOn: number;
   emittedOn?: number;
   cpuLoadRecords: CpuLoadRecord[];
