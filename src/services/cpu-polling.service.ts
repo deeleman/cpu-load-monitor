@@ -1,7 +1,6 @@
-import { CpuLoadRecord } from '../models';
+import { CpuLoadRecord, Observable, settings } from '../models';
+import { cpuLoadRecordSerializer } from './helpers';
 import { httpClientService } from './http-client.service';
-
-const API_ENDPOINT = '/api/cpu';
 
 /**
  * @description
@@ -10,16 +9,18 @@ const API_ENDPOINT = '/api/cpu';
  * This method returns a hot observable that lazily initiates polling and supports multiple subscribers.
  * The method returns an unsunscription handler that will cancel polling and terminate all subscriptions.
  * The polling milliseconds interval is both configurable upon creating an instance and via
- * the `refreshRate` public property.
+ * the `refreshRate` public property. Nonetheless it assumes the value configured by default for the
+ * `REFRESH_RATE_MS` (wrapped by the settings token) token in the configuration file.
  * 
- * @see API_ENDPOINT constant token (internal), pointing to the path to the API.
+ * @see [REFRESH_RATE_MS](../configuration.ts)
+ * @see [API_ENDPOINT](../configuration.ts)
  */
-export class CpuPollingService {
+export class CpuPollingService implements Observable<CpuLoadRecord> {
   private subscribers: Array<(cpuLoadRecord: CpuLoadRecord) => void> = [];
   private pollingTimeout: any;
   private replayCpuLoadRecord: CpuLoadRecord | undefined;
 
-  constructor(private pollingRate: number) { }
+  constructor(private pollingRate: number = settings.refreshRate) { }
 
   set refreshRate(rate: number) {
     this.pollingRate = rate;
@@ -50,7 +51,7 @@ export class CpuPollingService {
   private async requestCpuLoadRecord(): Promise<void> {
     clearTimeout(this.pollingTimeout);
     
-    this.replayCpuLoadRecord = await httpClientService<CpuLoadRecord>(API_ENDPOINT);
+    this.replayCpuLoadRecord = await httpClientService<CpuLoadRecord>(settings.pollingEndpoint, cpuLoadRecordSerializer);
     this.subscribers.forEach((subscription) => subscription.call(null, this.replayCpuLoadRecord!!));
 
     this.pollingTimeout = setTimeout(async () => await this.requestCpuLoadRecord(), this.pollingRate);

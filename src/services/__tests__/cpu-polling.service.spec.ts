@@ -1,3 +1,4 @@
+import { pollingSettings } from '../../models';
 import { CpuPollingService } from '../cpu-polling.service';
 import * as httpClentModule from '../http-client.service';
 
@@ -32,6 +33,12 @@ describe('CpuPollingService', () => {
   });
 
   test('should let peeking into the polling rate via the refreshRate property', () => {
+    const cpuPollingService = new CpuPollingService();
+    expect(cpuPollingService.refreshRate).toBe(pollingSettings.refreshRate);
+  });
+
+  test('should support configuring the object with a custom polling rate', () => {
+    const cpuPollingService = new CpuPollingService(pollingRateMock);
     expect(cpuPollingService.refreshRate).toBe(pollingRateMock);
   });
 
@@ -80,12 +87,12 @@ describe('CpuPollingService', () => {
     cpuPollingService.subscribe(subscriberOneStub);
     teardownSubscriptionsFn = cpuPollingService.subscribe(subscriberTwoStub);
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 2500));
     
     await flushPromises();
     
-    expect(subscriberOneStub).toHaveBeenLastCalledWith({ loadAvg: 0.22233332102006, timestamp: 1609932425006 });
-    expect(subscriberTwoStub).toHaveBeenLastCalledWith({ loadAvg: 0.22233332102006, timestamp: 1609932425006 });
+    expect(subscriberOneStub).toHaveBeenCalledTimes(3);
+    expect(subscriberTwoStub).toHaveBeenCalledTimes(3);
   });
 
   test('should cancel the ongoing polling cycle and spawn a new one upon updating the refreshRate', async () => {
