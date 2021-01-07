@@ -30,7 +30,7 @@ describe('AlertsNotificationService', () => {
 
       expect(subscriptionSpy).toHaveBeenCalledTimes(1);
       expect(subscriptionSpy).toHaveBeenCalledWith({
-        type: AlertNotificationType.heavyLoad,
+        type: AlertNotificationType.HeavyLoad,
         createdOn: 1609932400001,
         emittedOn: 1609932410003,
         cpuLoadRecords: [
@@ -52,7 +52,7 @@ describe('AlertsNotificationService', () => {
 
       expect(subscriptionSpy).toHaveBeenCalledTimes(2);
       expect(subscriptionSpy).toHaveBeenLastCalledWith({
-        type: AlertNotificationType.heavyLoad,
+        type: AlertNotificationType.HeavyLoad,
         createdOn: 1609932400001,
         emittedOn: 1609932415004,
         cpuLoadRecords: [
@@ -76,7 +76,7 @@ describe('AlertsNotificationService', () => {
 
       // expect(subscriptionSpy).toHaveBeenCalledTimes(1);
       expect(subscriptionSpy).toHaveBeenLastCalledWith({
-        type: AlertNotificationType.heavyLoad,
+        type: AlertNotificationType.HeavyLoad,
         createdOn: 1609932400001,
         emittedOn: 1609932410003,
         cpuLoadRecords: [
@@ -101,7 +101,7 @@ describe('AlertsNotificationService', () => {
 
       expect(subscriptionSpy).toHaveBeenCalledTimes(2);
       expect(subscriptionSpy).toHaveBeenLastCalledWith({
-        type: AlertNotificationType.heavyLoad,
+        type: AlertNotificationType.HeavyLoad,
         createdOn: 1609932420005,
         emittedOn: 1609932430007,
         cpuLoadRecords: [
@@ -140,7 +140,7 @@ describe('AlertsNotificationService', () => {
 
       expect(subscriptionSpy).toHaveBeenCalledTimes(2);
       expect(subscriptionSpy).toHaveBeenLastCalledWith({
-        type: AlertNotificationType.recovery,
+        type: AlertNotificationType.Recovery,
         createdOn: 1609932415004,
         emittedOn: 1609932425006,
         cpuLoadRecords: [
@@ -166,7 +166,7 @@ describe('AlertsNotificationService', () => {
 
       expect(subscriptionSpy).toHaveBeenCalledTimes(4);
       expect(subscriptionSpy).toHaveBeenLastCalledWith({
-        type: AlertNotificationType.recovery,
+        type: AlertNotificationType.Recovery,
         createdOn: 1609932415004,
         emittedOn: 1609932435008,
         cpuLoadRecords: [
@@ -194,7 +194,7 @@ describe('AlertsNotificationService', () => {
 
       expect(subscriptionSpy).toHaveBeenCalledTimes(3);
       expect(subscriptionSpy).toHaveBeenLastCalledWith({
-        type: AlertNotificationType.recovery,
+        type: AlertNotificationType.Recovery,
         createdOn: 1609932415004,
         emittedOn: 1609932430007,
         cpuLoadRecords: [
@@ -225,7 +225,7 @@ describe('AlertsNotificationService', () => {
 
       expect(subscriptionSpy).toHaveBeenCalledTimes(4);
       expect(subscriptionSpy).toHaveBeenLastCalledWith({
-        type: AlertNotificationType.recovery,
+        type: AlertNotificationType.Recovery,
         createdOn: 1609932445010,
         emittedOn: 1609932455012,
         cpuLoadRecords: [
@@ -257,7 +257,7 @@ describe('AlertsNotificationService', () => {
 
       expect(subscriptionSpy).toHaveBeenCalledTimes(1);
       expect(subscriptionSpy).toHaveBeenCalledWith({
-        type: AlertNotificationType.heavyLoad,
+        type: AlertNotificationType.HeavyLoad,
         createdOn: 1609932405002,
         emittedOn: 1609932410003,
         cpuLoadRecords: [
@@ -279,7 +279,7 @@ describe('AlertsNotificationService', () => {
 
       expect(subscriptionSpy).toHaveBeenCalledTimes(1);
       expect(subscriptionSpy).toHaveBeenCalledWith({
-        type: AlertNotificationType.heavyLoad,
+        type: AlertNotificationType.HeavyLoad,
         createdOn: 1609932405002,
         emittedOn: 1609932410003,
         cpuLoadRecords: [

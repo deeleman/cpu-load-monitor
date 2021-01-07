@@ -29,11 +29,11 @@ export class AlertsNotificationService implements Observable<AlertNotification> 
 
   pipe(cpuLoadRecord: CpuLoadRecord): void {
     const cpuLoadRecordType = cpuLoadRecord.loadAvg >= this.settings.cpuLoadAverageThreshold ?
-      AlertNotificationType.heavyLoad : 
-      AlertNotificationType.recovery;
+      AlertNotificationType.HeavyLoad : 
+      AlertNotificationType.Recovery;
 
     // If no previous alert notification, we only create the first one not before the first heavy load alert pops up
-    if (this.pivotalAlert === void 0 && cpuLoadRecordType === AlertNotificationType.heavyLoad) {
+    if (this.pivotalAlert === void 0 && cpuLoadRecordType === AlertNotificationType.HeavyLoad) {
       this.replacePivotalAlert(cpuLoadRecord, cpuLoadRecordType);
     // If alerting has kicked off, we only replace the current ongoing alert upon a change in the alert type trend
     } else if (this.pivotalAlert !== void 0 && this.pivotalAlert.type !== cpuLoadRecordType) {
@@ -65,13 +65,13 @@ export class AlertsNotificationService implements Observable<AlertNotification> 
     const pivotalAlert = this.pivotalAlert as AlertNotification;
     pivotalAlert.cpuLoadRecords.push(cpuLoadRecord);
     
-    const timeThreshold = pivotalAlert.type === AlertNotificationType.heavyLoad ?
+    const timeThreshold = pivotalAlert.type === AlertNotificationType.HeavyLoad ?
       this.settings.cpuOverloadAlertingThreshold :
       this.settings.cpuRecoveryNotificationThreshold;
     
     const hasExceededTimeThreshold = (cpuLoadRecord.timestamp - pivotalAlert.createdOn) >= timeThreshold;
-    const isHeavyLoadAlert = pivotalAlert.type === AlertNotificationType.heavyLoad;
-    const isRecoveryAlert = pivotalAlert.type === AlertNotificationType.recovery && this.isRecoveryAlertPending;
+    const isHeavyLoadAlert = pivotalAlert.type === AlertNotificationType.HeavyLoad;
+    const isRecoveryAlert = pivotalAlert.type === AlertNotificationType.Recovery && this.isRecoveryAlertPending;
 
     const shouldEmitNotification = hasExceededTimeThreshold && (isHeavyLoadAlert || isRecoveryAlert);
 
@@ -86,7 +86,7 @@ export class AlertsNotificationService implements Observable<AlertNotification> 
 
   private emitNotification(notification: AlertNotification): void {
     this.subscribers.forEach((subscription) => subscription.call(null, notification));
-    if (notification.type === AlertNotificationType.heavyLoad && !this.isRecoveryAlertPending) {
+    if (notification.type === AlertNotificationType.HeavyLoad && !this.isRecoveryAlertPending) {
       this.isRecoveryAlertPending = true;
     }
   }
