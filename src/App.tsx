@@ -16,6 +16,7 @@ function App() {
 
     const notificationsSubscription = notificationService.subscribe((notification) => {
       setNotification(notification);
+      console.log(notification);
     });
 
     const cpuPollingSubscription = cpuPollingService.subscribe((cpuLoadRecord) => {

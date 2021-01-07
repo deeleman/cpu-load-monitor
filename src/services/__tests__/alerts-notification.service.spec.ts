@@ -239,7 +239,7 @@ describe('AlertsNotificationService', () => {
   });
   
   describe('should observe a maximum time window for records in alert notifications', () => {
-    test.only('so no alert notification CPU load records amount is greater than the buffer size', () => {
+    test('so no alert notification CPU load records amount is greater than the buffer size', () => {
       // Emulates a long-running heavy load scenario
       alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932400001 });
       alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932405002 });
@@ -315,7 +315,7 @@ describe('AlertsNotificationService', () => {
 
       jest.advanceTimersToNextTimer();
 
-      expect(subscriptionSpy).toHaveBeenCalledTimes(1);
+      expect(subscriptionSpy).toHaveBeenCalledTimes(3);
       expect(subscriptionSpy).toHaveBeenCalledWith({
         type: AlertNotificationType.HeavyLoad,
         createdOn: 1609932410003,
