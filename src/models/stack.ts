@@ -1,4 +1,4 @@
-import { pollingSettings } from './settings.models';
+import { settings } from '../settings';
 
 /**
  * @description
@@ -10,10 +10,10 @@ import { pollingSettings } from './settings.models';
  * The Stack object can be - optionally - instanced with an already existing stack collection
  * and override the default buffer size by informing such data in the class constructor or thru its API.
  * 
- * @see [BUFFER_SIZE](../configuration.ts)
+ * @see [BUFFER_SIZE](../settings/settings.configuration.ts)
  */
 export class Stack<T> {
-  constructor(private records: T[] = [], private bufferSize: number = pollingSettings.bufferSize) {
+  constructor(private records: T[] = [], private bufferSize: number = settings.bufferSize) {
     this.records = records.slice(0, this.bufferSize);
   }
 

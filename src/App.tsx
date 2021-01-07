@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import { AlertNotification, CpuLoadRecord, Stack } from './models';
 import { AlertsNotificationService, CpuPollingService } from './services';
+import { Settings, settings } from './settings';
 
 function App() {
   const cpuLoadRecordsStack = new Stack<CpuLoadRecord>();
   const [cpuLoadRecords, setCpuLoadRecords] = useState<CpuLoadRecord[]>([]);
   const [notification, setNotification] = useState<AlertNotification>();
+  const [settingProps, setSettings] = useState<Settings>(settings);
 
   useEffect(() => {
     const cpuPollingService = new CpuPollingService();
@@ -33,7 +35,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>CPU Load Tail</h1>
-        <pre>{JSON.stringify(notification)}</pre>
+        {/* <pre>{JSON.stringify(settingsState)}</pre> */}
         <table>
           <thead>
             <tr>

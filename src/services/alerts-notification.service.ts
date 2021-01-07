@@ -1,4 +1,5 @@
-import { AlertSettings, alertSettings, CpuLoadRecord, AlertNotification, AlertNotificationType, Observable } from '../models';
+import { AlertNotification, AlertNotificationType, CpuLoadRecord, Observable } from '../models';
+import { AlertSettings, settings } from '../settings';
 
 /**
  * @description
@@ -12,23 +13,23 @@ import { AlertSettings, alertSettings, CpuLoadRecord, AlertNotification, AlertNo
  * Settings can be defined via the constructor or by running the `updateSettings()` API method. If not defined
  * the system will fetch the default settings as configured in the configuration manifest.
  *
- * @see [CPU_LOAD_RECOVERY_THRESHOLD_MS](../configuration.ts)
- * @see [CPU_OVERLOAD_ALERT_THRESHOLD_MS](../configuration.ts)
- * @see [LOAD_AVERAGE_THRESHOLD](../configuration.ts)
+ * @see [CPU_LOAD_RECOVERY_THRESHOLD_MS](../settings/settings.configuration.ts)
+ * @see [CPU_OVERLOAD_ALERT_THRESHOLD_MS](../settings/settings.configuration.ts)
+ * @see [LOAD_AVERAGE_THRESHOLD](../settings/settings.configuration.ts)
  */
 export class AlertsNotificationService implements Observable<AlertNotification> {
   private isRecoveryAlertPending = false;
   private pivotalAlert: AlertNotification | undefined;
   private subscribers: Array<(notification: AlertNotification) => void> = [];
 
-  constructor(private settings: AlertSettings = alertSettings) {}
+  constructor(private alertSettings: AlertSettings = settings) {}
 
   updateSettings(settings: AlertSettings): void {
-    this.settings = settings;
+    this.alertSettings = settings;
   }
 
   pipe(cpuLoadRecord: CpuLoadRecord): void {
-    const cpuLoadRecordType = cpuLoadRecord.loadAvg >= this.settings.cpuLoadAverageThreshold ?
+    const cpuLoadRecordType = cpuLoadRecord.loadAvg >= this.alertSettings.cpuLoadAverageThreshold ?
       AlertNotificationType.HeavyLoad : 
       AlertNotificationType.Recovery;
 
@@ -66,8 +67,8 @@ export class AlertsNotificationService implements Observable<AlertNotification> 
     pivotalAlert.cpuLoadRecords.push(cpuLoadRecord);
     
     const timeThreshold = pivotalAlert.type === AlertNotificationType.HeavyLoad ?
-      this.settings.cpuOverloadAlertingThreshold :
-      this.settings.cpuRecoveryNotificationThreshold;
+      this.alertSettings.cpuOverloadAlertingThreshold :
+      this.alertSettings.cpuRecoveryNotificationThreshold;
     
     const hasExceededTimeThreshold = (cpuLoadRecord.timestamp - pivotalAlert.createdOn) >= timeThreshold;
     const isHeavyLoadAlert = pivotalAlert.type === AlertNotificationType.HeavyLoad;

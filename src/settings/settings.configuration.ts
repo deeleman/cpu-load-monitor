@@ -1,3 +1,5 @@
+import { Settings } from './settings.types';
+
 /**
  * MAIN APLICATION SETTINGS
  * --
@@ -80,14 +82,17 @@ const LOAD_AVERAGE_THRESHOLD = 1;
 const API_ENDPOINT = '/api/cpu';
 
 /**
- * Do not modify anything below this point
+ * DO NOT MODIFY ANYTHING BEYOND THIS POINT
  */
-export {
-  REFRESH_RATE_MS,
-  TIME_SERIES_EXPIRATION_LIMIT_MS,
-  BUFFER_SIZE,
-  CPU_LOAD_RECOVERY_THRESHOLD_MS,
-  CPU_OVERLOAD_ALERT_THRESHOLD_MS,
-  LOAD_AVERAGE_THRESHOLD,
-  API_ENDPOINT,
+export const settings: Settings = {
+  // PollingSettings
+  refreshRate: REFRESH_RATE_MS,
+  expirationWindow: TIME_SERIES_EXPIRATION_LIMIT_MS,
+  bufferSize: BUFFER_SIZE,
+  pollingEndpoint: API_ENDPOINT,
+
+  // AlertSettings
+  cpuRecoveryNotificationThreshold: CPU_LOAD_RECOVERY_THRESHOLD_MS,
+  cpuOverloadAlertingThreshold: CPU_OVERLOAD_ALERT_THRESHOLD_MS,
+  cpuLoadAverageThreshold: LOAD_AVERAGE_THRESHOLD,
 };

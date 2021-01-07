@@ -1,4 +1,5 @@
-import { CpuLoadRecord, Observable, settings } from '../models';
+import { CpuLoadRecord, Observable } from '../models';
+import { settings } from '../settings';
 import { cpuLoadRecordSerializer } from './helpers';
 import { httpClientService } from './http-client.service';
 
@@ -12,8 +13,8 @@ import { httpClientService } from './http-client.service';
  * the `refreshRate` public property. Nonetheless it assumes the value configured by default for the
  * `REFRESH_RATE_MS` (wrapped by the settings token) token in the configuration file.
  * 
- * @see [REFRESH_RATE_MS](../configuration.ts)
- * @see [API_ENDPOINT](../configuration.ts)
+ * @see [REFRESH_RATE_MS](../settings/settings.configuration.ts)
+ * @see [API_ENDPOINT](../settings/settings.configuration.ts)
  */
 export class CpuPollingService implements Observable<CpuLoadRecord> {
   private subscribers: Array<(cpuLoadRecord: CpuLoadRecord) => void> = [];
