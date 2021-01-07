@@ -10,6 +10,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "compression": "^1.7.4",
     "express": "^4.17.1",
     "loadavg-windows": "^1.1.1",
     "react": "^17.0.1",
@@ -66,7 +67,13 @@
     ]
   },
   "jest": {
-    "resetMocks": false
+    "resetMocks": false,
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/src/settings.ts",
+      "!<rootDir>/src/**/index.{js,jsx,ts,tsx}"
+    ]
   },
   "proxy": "http://localhost:8080"
 }

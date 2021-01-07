@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('path');
+const compression = require('compression');
 const app = express();
 const settings = require('./settings');
 const cpuLoadavg = require('./cpu-loadavg');
 const env = process.env.NODE_ENV || 'development';
 
+app.use(compression());
 app.use(express.static(path.join(__dirname, settings.BUILD_PATH)));
 
 app.get('/api/cpu', (_, response) => {
