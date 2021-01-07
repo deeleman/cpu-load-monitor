@@ -68,7 +68,14 @@ export class AlertsNotificationService implements Observable<AlertNotification> 
   private updatePivotalAlert(cpuLoadRecord: CpuLoadRecord): AlertNotification {
     const pivotalAlert = { ...this.pivotalAlert } as AlertNotification;
     pivotalAlert.cpuLoadRecords.push(cpuLoadRecord);
+
+    if (pivotalAlert.cpuLoadRecords.length > this.alertSettings.bufferSize) {
+      const startingIndex = pivotalAlert.cpuLoadRecords.length - this.alertSettings.bufferSize;
+      pivotalAlert.cpuLoadRecords = pivotalAlert.cpuLoadRecords.slice(startingIndex);
+    }  
     
+    pivotalAlert.createdOn = pivotalAlert.cpuLoadRecords[0].timestamp;
+
     const timeThreshold = pivotalAlert.type === AlertNotificationType.HeavyLoad ?
       this.alertSettings.cpuOverloadAlertingThreshold :
       this.alertSettings.cpuRecoveryNotificationThreshold;

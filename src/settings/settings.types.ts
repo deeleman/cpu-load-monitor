@@ -12,10 +12,6 @@ export interface PollingSettings {
    */
   expirationWindow: number;
   /**
-   * Maximum amount of items to be handled by objects persisting CPU load data items.
-   */
-  bufferSize: number;
-  /**
    * PAth or URL to REST API endpoint serving CPU load data
    */
   pollingEndpoint: string;
@@ -38,6 +34,10 @@ export interface AlertSettings {
    * Average CPU load average rate that tells apart normal from heavy CPU load
    */
   cpuLoadAverageThreshold: number;
+  /**
+   * Maximum amount of items to be handled by objects persisting CPU load data items.
+   */
+  bufferSize: number;
 }
 
 /**

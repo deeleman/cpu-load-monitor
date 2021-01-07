@@ -88,11 +88,11 @@ export const settings: Settings = {
   // PollingSettings
   refreshRate: REFRESH_RATE_MS,
   expirationWindow: TIME_SERIES_EXPIRATION_LIMIT_MS,
-  bufferSize: BUFFER_SIZE,
   pollingEndpoint: API_ENDPOINT,
-
+  
   // AlertSettings
   cpuRecoveryNotificationThreshold: CPU_LOAD_RECOVERY_THRESHOLD_MS,
   cpuOverloadAlertingThreshold: CPU_OVERLOAD_ALERT_THRESHOLD_MS,
   cpuLoadAverageThreshold: LOAD_AVERAGE_THRESHOLD,
+  bufferSize: BUFFER_SIZE,
 };

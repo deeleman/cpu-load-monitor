@@ -8,6 +8,7 @@ describe('AlertsNotificationService', () => {
     cpuRecoveryNotificationThreshold: 10000,
     cpuOverloadAlertingThreshold: 10000,
     cpuLoadAverageThreshold: 1,
+    bufferSize: 5,
   };
 
   jest.useFakeTimers();
@@ -211,7 +212,7 @@ describe('AlertsNotificationService', () => {
       alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932400001 });
       alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932405002 });
       alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932410003 }); // HeavyLoad Notification #1
-      alertsNotificationService.pipe({ loadAvg: 0.88, timeLabel: '', timestamp: 1609932415004 }); // Recovery starts...
+      alertsNotificationService.pipe({ loadAvg: 0.88, timeLabel: '', timestamp: 1609932415004 }); // Recovery starts... 
       alertsNotificationService.pipe({ loadAvg: 0.70, timeLabel: '', timestamp: 1609932420005 });
       alertsNotificationService.pipe({ loadAvg: 0.50, timeLabel: '', timestamp: 1609932425006 }); // Recovery notification #1
       alertsNotificationService.pipe({ loadAvg: 1.25, timeLabel: '', timestamp: 1609932430007 }); // HeavyLoad resumes...
@@ -237,11 +238,46 @@ describe('AlertsNotificationService', () => {
     });
   });
   
+  describe('should observe a maximum time window for records in alert notifications', () => {
+    test.only('so no alert notification CPU load records amount is greater than the buffer size', () => {
+      // Emulates a long-running heavy load scenario
+      alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932400001 });
+      alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932405002 });
+      alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932410003 }); // First HeavyLoad Notification
+      alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932415004 });
+      alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932420005 });
+      alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932425006 });
+      alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932430007 });
+      alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932435008 }); // First CPU load record included in final alert 
+      alertsNotificationService.pipe({ loadAvg: 1.29, timeLabel: '', timestamp: 1609932440009 });
+      alertsNotificationService.pipe({ loadAvg: 1.29, timeLabel: '', timestamp: 1609932445010 });
+      alertsNotificationService.pipe({ loadAvg: 1.29, timeLabel: '', timestamp: 1609932450011 });
+      alertsNotificationService.pipe({ loadAvg: 1.29, timeLabel: '', timestamp: 1609932455012 });
+      alertsNotificationService.pipe({ loadAvg: 0.80, timeLabel: '', timestamp: 1609932460013 });
+
+      jest.advanceTimersToNextTimer();
+
+      expect(subscriptionSpy).toHaveBeenLastCalledWith({
+        type: AlertNotificationType.HeavyLoad,
+        createdOn: 1609932435008,
+        emittedOn: 1609932455012,
+        cpuLoadRecords: [
+          { loadAvg: 1.10, timeLabel: '', timestamp: 1609932435008 }, 
+          { loadAvg: 1.29, timeLabel: '', timestamp: 1609932440009 },
+          { loadAvg: 1.29, timeLabel: '', timestamp: 1609932445010 },
+          { loadAvg: 1.29, timeLabel: '', timestamp: 1609932450011 },
+          { loadAvg: 1.29, timeLabel: '', timestamp: 1609932455012 },
+        ],
+      });
+    });
+  })
+
   describe('should support custom settings configuration', () => {
     const updatedAlertSettings = {
       cpuRecoveryNotificationThreshold: 5000,
       cpuOverloadAlertingThreshold: 5000,
       cpuLoadAverageThreshold: 0.75,
+      bufferSize: 3,
     };
 
     test('by passing a settings object thru the constructor', () => {
@@ -273,18 +309,21 @@ describe('AlertsNotificationService', () => {
       // Emulates mild load CPU records spanning 10 seconds ONLY (not enough for a notification under default settings)
       alertsNotificationService.pipe({ loadAvg: 0.25, timeLabel: '', timestamp: 1609932400001 });
       alertsNotificationService.pipe({ loadAvg: 0.79, timeLabel: '', timestamp: 1609932405002 }); // Heavy load starts...
-      alertsNotificationService.pipe({ loadAvg: 0.82, timeLabel: '', timestamp: 1609932410003 }); // Heavyload Notification #1
+      alertsNotificationService.pipe({ loadAvg: 0.79, timeLabel: '', timestamp: 1609932410003 }); // Heavyload Notification #1
+      alertsNotificationService.pipe({ loadAvg: 0.82, timeLabel: '', timestamp: 1609932415004 }); // Heavyload Notification #2
+      alertsNotificationService.pipe({ loadAvg: 0.82, timeLabel: '', timestamp: 1609932420005 }); // Heavyload Notification #3
 
       jest.advanceTimersToNextTimer();
 
       expect(subscriptionSpy).toHaveBeenCalledTimes(1);
       expect(subscriptionSpy).toHaveBeenCalledWith({
         type: AlertNotificationType.HeavyLoad,
-        createdOn: 1609932405002,
-        emittedOn: 1609932410003,
+        createdOn: 1609932410003,
+        emittedOn: 1609932420005,
         cpuLoadRecords: [
-          { loadAvg: 0.79, timeLabel: '', timestamp: 1609932405002 },
-          { loadAvg: 0.82, timeLabel: '', timestamp: 1609932410003 },
+          { loadAvg: 0.79, timeLabel: '', timestamp: 1609932410003 },
+          { loadAvg: 0.82, timeLabel: '', timestamp: 1609932415004 },
+          { loadAvg: 0.82, timeLabel: '', timestamp: 1609932420005 },
         ],
       });
     });
