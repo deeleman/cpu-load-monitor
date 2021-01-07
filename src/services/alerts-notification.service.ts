@@ -41,9 +41,12 @@ export class AlertsNotificationService implements Observable<AlertNotification> 
       this.replacePivotalAlert(cpuLoadRecord, cpuLoadRecordType);
     // If alerting has kicked off but the CPU load trend remains the same, we just update the current ongoing alert
     } else if (this.pivotalAlert !== void 0 && this.pivotalAlert.type === cpuLoadRecordType) {
-      const notification = this.updatePivotalAlert(cpuLoadRecord);
-      if (notification.emittedOn !== void 0) {
-        this.emitNotification(notification);
+      this.pivotalAlert = this.updatePivotalAlert(cpuLoadRecord);
+
+      if (this.pivotalAlert.emittedOn !== void 0) {
+        this.emitNotification(this.pivotalAlert);
+      } else if (this.pivotalAlert.type === AlertNotificationType.HeavyLoad) {
+        this.isRecoveryAlertPending = false;
       }
     }
   }
@@ -63,7 +66,7 @@ export class AlertsNotificationService implements Observable<AlertNotification> 
   }
 
   private updatePivotalAlert(cpuLoadRecord: CpuLoadRecord): AlertNotification {
-    const pivotalAlert = this.pivotalAlert as AlertNotification;
+    const pivotalAlert = { ...this.pivotalAlert } as AlertNotification;
     pivotalAlert.cpuLoadRecords.push(cpuLoadRecord);
     
     const timeThreshold = pivotalAlert.type === AlertNotificationType.HeavyLoad ?
@@ -78,8 +81,6 @@ export class AlertsNotificationService implements Observable<AlertNotification> 
 
     if (shouldEmitNotification) {
       pivotalAlert.emittedOn = cpuLoadRecord.timestamp;
-    } else if (isHeavyLoadAlert) {
-      this.isRecoveryAlertPending = false;
     }
    
     return pivotalAlert;
