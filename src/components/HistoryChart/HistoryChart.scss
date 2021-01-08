@@ -3,11 +3,9 @@ $component-height: 240px;
 .chart {
   margin: 10px 15px;
   height: $component-height;
-  padding-top: 10px;
   border-radius: 10px;
   background: rgb(13,21,24);
-  background: linear-gradient(0deg, rgba(13,21,24,.6) 0%, rgba(26,40,46,1) 100%);
-
+  background: linear-gradient(0deg, rgba(13, 21, 24, 1) 20%, rgba(26, 40, 46, 0) 100%);
 
   &__items {
     position: relative;
@@ -19,7 +17,7 @@ $component-height: 240px;
     list-style-type: none;
     margin: 0;
     padding: 0 5px;
-    background-image: linear-gradient(rgba(26,40,46,1) .1em, transparent .1em);
+    background-image: linear-gradient(rgb(26, 40, 46) .1em, transparent .1em);
     background-size: $component-height/4 $component-height/4;
 
     &::after {
@@ -54,9 +52,7 @@ $component-height: 240px;
 
     &:hover {
       background: rgba(126,218,230,1);
-      &::after { 
-        display: none;
-      }
+      cursor: pointer;
     }
 
     &-time {
