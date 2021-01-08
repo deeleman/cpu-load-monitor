@@ -1,4 +1,4 @@
-import { settings } from '../settings';
+import { defaultSettings } from '../settings';
 
 /**
  * @description
@@ -13,7 +13,7 @@ import { settings } from '../settings';
  * @see [BUFFER_SIZE](../settings/settings.configuration.ts)
  */
 export class Stack<T> {
-  constructor(private records: T[] = [], private bufferSize: number = settings.bufferSize) {
+  constructor(private records: T[] = [], private bufferSize: number = defaultSettings.bufferSize) {
     this.records = records.slice(0, this.bufferSize);
   }
 

@@ -4,7 +4,7 @@ import './App.scss';
 import { CpuLoadGauge, HistoryChart, NotificationBar, SettingsEditor } from './components';
 import { AlertNotification, CpuLoadRecord, Stack } from './models';
 import { AlertsNotificationService, CpuPollingService, formatTimestamp } from './services';
-import { Settings, settings } from './settings';
+import { Settings, defaultSettings } from './settings';
 import logo from './assets/logo.png';
 
 const timestamp = Date.now();
@@ -21,7 +21,7 @@ function App() {
  
   const [cpuLoadRecords, setCpuLoadRecords] = useState<CpuLoadRecord[]>([initialCpuLoadrecord]);
   const [alertNotification, setAlertNotification] = useState<AlertNotification>();
-  const [settingsState, setSettings] = useState<Settings>(settings);
+  const [settings, setSettings] = useState<Settings>(defaultSettings);
 
   useEffect(() => {
     const notificationsSubscription = alertsNotificationService.subscribe((alertNotification) => {
@@ -41,10 +41,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    cpuLoadRecordsStack.resize(settingsState.bufferSize);
-    alertsNotificationService.updateSettings(settingsState);
-    cpuPollingService.refreshRate = settingsState.refreshRate;
-  }, [settingsState]);
+    cpuLoadRecordsStack.resize(settings.bufferSize);
+    alertsNotificationService.updateSettings(settings);
+    cpuPollingService.refreshRate = settings.refreshRate;
+  }, [settings]);
 
   return (
     <div className="App">
@@ -55,15 +55,15 @@ function App() {
       <main>
         <CpuLoadGauge
           currentRecord={cpuLoadRecords[0]}
-          refreshRate={settingsState.refreshRate}
-          alertThreshold={settingsState.cpuLoadAverageThreshold}></CpuLoadGauge>
+          refreshRate={settings.refreshRate}
+          alertThreshold={settings.cpuLoadAverageThreshold}></CpuLoadGauge>
         <HistoryChart
           records={cpuLoadRecords}
-          size={settingsState.bufferSize}
-          alertThreshold={settingsState.cpuLoadAverageThreshold}></HistoryChart>
+          size={settings.bufferSize}
+          alertThreshold={settings.cpuLoadAverageThreshold}></HistoryChart>
         <NotificationBar alertNotification={alertNotification}></NotificationBar>
         <footer className="Settings">
-          <SettingsEditor settings={settingsState} onChange={setSettings}></SettingsEditor>
+          <SettingsEditor settings={settings} onChange={setSettings}></SettingsEditor>
         </footer>
       </main>
     </div>

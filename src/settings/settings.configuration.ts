@@ -77,14 +77,16 @@ const LOAD_AVERAGE_THRESHOLD = 1;
  * frontend will fetch the required data from the API endpoint configured below.
  * Please keep this data in sync with the Node.js implementation.
  * 
+ * Changes will require rebooting the application to take effect.
+ * 
  * @see [Node.js Express implementation](/server/index.js)
  */
 const API_ENDPOINT = '/api/cpu';
 
 /**
- * DO NOT MODIFY ANYTHING BEYOND THIS POINT
+ * Default settings upon bootstrap - Do not mutate this object directly.
  */
-export const settings: Settings = {
+export const defaultSettings: Settings = {
   // PollingSettings
   refreshRate: REFRESH_RATE_MS,
   expirationWindow: TIME_SERIES_EXPIRATION_LIMIT_MS,

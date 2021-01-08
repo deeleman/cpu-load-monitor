@@ -1,5 +1,5 @@
 import { CpuLoadRecord, Observable } from '../models';
-import { settings } from '../settings';
+import { defaultSettings } from '../settings';
 import { cpuLoadRecordSerializer } from './helpers';
 import { httpClientService } from './http-client.service';
 
@@ -21,7 +21,7 @@ export class CpuPollingService implements Observable<CpuLoadRecord> {
   private pollingTimeout: any;
   private replayCpuLoadRecord: CpuLoadRecord | undefined;
 
-  constructor(private pollingRate: number = settings.refreshRate) { }
+  constructor(private pollingRate: number = defaultSettings.refreshRate) { }
 
   set refreshRate(rate: number) {
     this.pollingRate = rate;
@@ -52,7 +52,7 @@ export class CpuPollingService implements Observable<CpuLoadRecord> {
   private async requestCpuLoadRecord(): Promise<void> {
     clearTimeout(this.pollingTimeout);
     
-    this.replayCpuLoadRecord = await httpClientService<CpuLoadRecord>(settings.pollingEndpoint, cpuLoadRecordSerializer);
+    this.replayCpuLoadRecord = await httpClientService<CpuLoadRecord>(defaultSettings.pollingEndpoint, cpuLoadRecordSerializer);
     this.subscribers.forEach((subscription) => subscription.call(null, this.replayCpuLoadRecord!!));
 
     this.pollingTimeout = setTimeout(async () => await this.requestCpuLoadRecord(), this.pollingRate);

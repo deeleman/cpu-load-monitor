@@ -1,5 +1,5 @@
 import { AlertNotification, AlertNotificationType, CpuLoadRecord, Observable } from '../models';
-import { AlertSettings, settings } from '../settings';
+import { AlertSettings, defaultSettings } from '../settings';
 
 /**
  * @description
@@ -22,7 +22,7 @@ export class AlertsNotificationService implements Observable<AlertNotification> 
   private pivotalAlert: AlertNotification | undefined;
   private subscribers: Array<(notification: AlertNotification) => void> = [];
 
-  constructor(private alertSettings: AlertSettings = settings) {}
+  constructor(private alertSettings: AlertSettings = defaultSettings) {}
 
   updateSettings(settings: AlertSettings): void {
     this.alertSettings = settings;
