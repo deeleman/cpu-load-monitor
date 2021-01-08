@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import './App.scss';
-import { CpuLoadGauge } from './components';
+import { CpuLoadGauge, HistoryChart } from './components';
 import { AlertNotification, CpuLoadRecord, Stack } from './models';
 import { AlertsNotificationService, CpuPollingService, formatTimestamp } from './services';
 import { Settings, settings } from './settings';
@@ -57,11 +57,14 @@ function App() {
           currentRecord={cpuLoadRecords[0]}
           refreshRate={settingsState.refreshRate}
           alertThreshold={settingsState.cpuLoadAverageThreshold}></CpuLoadGauge>
+        <HistoryChart
+          records={cpuLoadRecords}
+          size={settingsState.bufferSize}
+          alertThreshold={settingsState.cpuLoadAverageThreshold}></HistoryChart>
         {/*
-        <HistoryChart records={cpuLoadRecords} size={settingsState.bufferSize}></HistoryChart>
         <NotificationBar currentAlert={alertState}></NotificationBar>
         <footer className="Settings">
-          <Settings settings={settingsState}></Settings>
+          <Settings settings={settingsState} onChange={setSettings}></Settings>
         </footer>
         */}
       </main>

@@ -1,0 +1,109 @@
+$component-height: 240px;
+
+.chart {
+  margin: 10px 15px;
+  height: $component-height;
+  padding-top: 10px;
+  border-radius: 10px;
+  background: rgb(13,21,24);
+  background: linear-gradient(0deg, rgba(13,21,24,.6) 0%, rgba(26,40,46,1) 100%);
+
+
+  &__items {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: $component-height;
+    list-style-type: none;
+    margin: 0;
+    padding: 0 5px;
+    background-image: linear-gradient(rgba(26,40,46,1) .1em, transparent .1em);
+    background-size: $component-height/4 $component-height/4;
+
+    &::after {
+      display: block;
+      position: absolute;
+      bottom: $component-height / 2;
+      left: 5px;
+      right: 5px;
+      content: 'threshold';
+      opacity: .4;
+      font-size: 12px;
+      padding-bottom: 4px;
+      text-align: center;
+    }
+  }
+
+  &__item {
+    display: block;
+    position: relative;
+    align-self: flex-end;
+    border-radius: 3px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+    height: 1px;
+    margin: 1px;
+    transition: height 1s ease-in;
+    background: rgb(0,106,250);
+    background: linear-gradient(0deg, rgba(0,106,250,1) 0%, rgba(0,106,250,1) 40%, rgba(222,171,0,1) 49%, rgba(213,16,16,1) 54%, rgba(94,15,15,1) 83%);
+    background-position: center bottom;
+    background-size: 100% $component-height;
+
+    &:hover {
+      background: rgba(126,218,230,1);
+      &::after { 
+        display: none;
+      }
+    }
+
+    &-time {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      margin-top: 10px;
+      transform: translate(-50%, 100%);
+      padding: 4px 8px;
+      background: #FFF;
+      font-size: 12px;
+      text-align: center;
+      border-radius: 4px;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.8s;
+      z-index: 99999999;
+      color: #999888;
+
+      strong {
+        color: rgb(13,21,24);
+      }
+  
+      i {
+        position:absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        width: 10px;
+        height: 5px;
+        overflow: hidden;
+
+        &::after {
+          content:'';
+          position: absolute;
+          width: 5px;
+          height: 5px;
+          left: 50%;
+          transform: translate(-50%,50%) rotate(45deg);
+          background: #FFF;
+        }
+      }
+    }
+
+    &:hover &-time {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
