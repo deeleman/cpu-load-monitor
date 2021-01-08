@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import './App.scss';
-import { CpuLoadGauge, HistoryChart } from './components';
+import { CpuLoadGauge, HistoryChart, NotificationBar, SettingsEditor } from './components';
 import { AlertNotification, CpuLoadRecord, Stack } from './models';
 import { AlertsNotificationService, CpuPollingService, formatTimestamp } from './services';
 import { Settings, settings } from './settings';
@@ -17,21 +17,21 @@ const initialCpuLoadrecord: CpuLoadRecord = {
 function App() {
   const cpuLoadRecordsStack = new Stack<CpuLoadRecord>();
   const cpuPollingService = new CpuPollingService();
-  const alertsService = new AlertsNotificationService();
+  const alertsNotificationService = new AlertsNotificationService();
  
   const [cpuLoadRecords, setCpuLoadRecords] = useState<CpuLoadRecord[]>([initialCpuLoadrecord]);
-  const [alertState, setAlertState] = useState<AlertNotification>();
+  const [alertNotification, setAlertNotification] = useState<AlertNotification>();
   const [settingsState, setSettings] = useState<Settings>(settings);
 
   useEffect(() => {
-    const notificationsSubscription = alertsService.subscribe((alertNotification) => {
-      setAlertState(alertNotification);
+    const notificationsSubscription = alertsNotificationService.subscribe((alertNotification) => {
+      setAlertNotification(alertNotification);
     });
 
     const cpuPollingSubscription = cpuPollingService.subscribe((cpuLoadRecord) => {
       const cpuLoadRecords = cpuLoadRecordsStack.add(cpuLoadRecord);
       setCpuLoadRecords(cpuLoadRecords);
-      alertsService.pipe(cpuLoadRecord);
+      alertsNotificationService.pipe(cpuLoadRecord);
     });
 
     return () => {
@@ -42,7 +42,7 @@ function App() {
 
   useEffect(() => {
     cpuLoadRecordsStack.resize(settingsState.bufferSize);
-    alertsService.updateSettings(settingsState);
+    alertsNotificationService.updateSettings(settingsState);
     cpuPollingService.refreshRate = settingsState.refreshRate;
   }, [settingsState]);
 
@@ -61,12 +61,10 @@ function App() {
           records={cpuLoadRecords}
           size={settingsState.bufferSize}
           alertThreshold={settingsState.cpuLoadAverageThreshold}></HistoryChart>
-        {/*
-        <NotificationBar currentAlert={alertState}></NotificationBar>
+        <NotificationBar alertNotification={alertNotification}></NotificationBar>
         <footer className="Settings">
-          <Settings settings={settingsState} onChange={setSettings}></Settings>
+          <SettingsEditor settings={settingsState} onChange={setSettings}></SettingsEditor>
         </footer>
-        */}
       </main>
     </div>
   );
