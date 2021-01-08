@@ -1,0 +1,115 @@
+$gauge-size: 200px;
+$gauge-bar-width: 4px;
+
+@mixin gaugebar-animation {
+  transform: rotate(180deg);
+  animation-name: gaugeFillAnimation;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+}
+
+.cpu-load-gauge {
+  margin: 0 auto;
+  width: $gauge-size;
+  height: $gauge-size;
+  background: #111;
+  border-radius: 50%;
+}
+
+.gauge {
+  &__mask,
+  &__mask-fill {
+    width: $gauge-size;
+    height: $gauge-size;
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  &__mask {
+    clip: rect(0px, $gauge-size, $gauge-size, $gauge-size/2);
+
+    &--full {
+      @include gaugebar-animation;
+    }
+
+    &-fill {
+      clip: rect(0px, $gauge-size/2, $gauge-size, 0px);
+      @include gaugebar-animation;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: $gauge-size - ($gauge-bar-width * 2);
+    height: $gauge-size - ($gauge-bar-width * 2);
+    border-radius: 50%;
+    background: #1a282e;
+    text-align: center;
+    margin-top: $gauge-bar-width;
+    margin-left: $gauge-bar-width;
+    position: absolute;
+    z-index: 100;
+    
+    &-load {
+      display: block;
+      font-size: 1.8em;
+      border-bottom: 1px solid #111;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+    }
+    
+    &-time {
+      font-size: .6em;
+    }
+  }
+
+  &__mask-fill,
+  &__content {
+    transition: color 0.8s ease, background-color 0.8s ease;
+  }
+
+  &--normal &__mask-fill { 
+    background-color: #0368ac;
+  }
+  &--normal &__content {
+    color: #85ceff;
+  }
+
+  &--warning &__mask-fill {
+    background-color: #af9500;
+  }
+  &--warning &__content {
+    color: #c0a037;
+  }
+
+  &--danger &__mask-fill {
+    background-color: #c31303;
+  }
+  &--danger &__content {
+    color: #eeb6ae;
+  }
+}
+ 
+@keyframes gaugeFillAnimation {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: rotate(180deg);
+    opacity: 0;
+  }
+}

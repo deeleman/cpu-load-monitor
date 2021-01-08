@@ -14,7 +14,7 @@ import { Settings } from './settings.types';
  * `REFRESH_RATE_MS`: The time interval - in millliseconds - at which
  * rate the UI polls the backend API for the latest CPU load data.
  */
-const REFRESH_RATE_MS = 2000; // 10000;
+const REFRESH_RATE_MS = 10000;
 
 /**
  * @description

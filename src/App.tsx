@@ -1,59 +1,70 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import './App.css';
+import './App.scss';
+import { CpuLoadGauge } from './components';
 import { AlertNotification, CpuLoadRecord, Stack } from './models';
-import { AlertsNotificationService, CpuPollingService } from './services';
+import { AlertsNotificationService, CpuPollingService, formatTimestamp } from './services';
 import { Settings, settings } from './settings';
+import logo from './assets/logo.png';
+
+const timestamp = Date.now();
+const initialCpuLoadrecord: CpuLoadRecord = {
+  loadAvg: 0,
+  timestamp,
+  timeLabel: formatTimestamp(timestamp),
+};
 
 function App() {
   const cpuLoadRecordsStack = new Stack<CpuLoadRecord>();
-  const [cpuLoadRecords, setCpuLoadRecords] = useState<CpuLoadRecord[]>([]);
-  const [notification, setNotification] = useState<AlertNotification>();
-  const [settingProps, setSettings] = useState<Settings>(settings);
+  const cpuPollingService = new CpuPollingService();
+  const alertsService = new AlertsNotificationService();
+ 
+  const [cpuLoadRecords, setCpuLoadRecords] = useState<CpuLoadRecord[]>([initialCpuLoadrecord]);
+  const [alertState, setAlertState] = useState<AlertNotification>();
+  const [settingsState, setSettings] = useState<Settings>(settings);
 
   useEffect(() => {
-    const cpuPollingService = new CpuPollingService();
-    const notificationService = new AlertsNotificationService();
-
-    const notificationsSubscription = notificationService.subscribe((notification) => {
-      setNotification(notification);
-      console.log(notification);
+    const notificationsSubscription = alertsService.subscribe((alertNotification) => {
+      setAlertState(alertNotification);
     });
 
     const cpuPollingSubscription = cpuPollingService.subscribe((cpuLoadRecord) => {
       const cpuLoadRecords = cpuLoadRecordsStack.add(cpuLoadRecord);
       setCpuLoadRecords(cpuLoadRecords);
-      notificationService.pipe(cpuLoadRecord);
+      alertsService.pipe(cpuLoadRecord);
     });
 
     return () => {
       cpuPollingSubscription();
       notificationsSubscription();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    cpuLoadRecordsStack.resize(settingsState.bufferSize);
+    alertsService.updateSettings(settingsState);
+    cpuPollingService.refreshRate = settingsState.refreshRate;
+  }, [settingsState]);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>CPU Load Tail</h1>
-        {/* <pre>{JSON.stringify(settingsState)}</pre> */}
-        <table>
-          <thead>
-            <tr>
-              <th>Load Average</th>
-              <th>Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cpuLoadRecords.map((cpuLoadItem, index) => (
-              <tr key={index}>
-                <td>{cpuLoadItem.loadAvg.toFixed(2)}</td>
-                <td>{cpuLoadItem.timeLabel}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <header>
+        <h1>CPU Load Monitor</h1>
+        <img src={logo} alt="App Monitoring Logo" />
       </header>
+      <main>
+        <CpuLoadGauge
+          currentRecord={cpuLoadRecords[0]}
+          refreshRate={settingsState.refreshRate}
+          alertThreshold={settingsState.cpuLoadAverageThreshold}></CpuLoadGauge>
+        {/*
+        <HistoryChart records={cpuLoadRecords} size={settingsState.bufferSize}></HistoryChart>
+        <NotificationBar currentAlert={alertState}></NotificationBar>
+        <footer className="Settings">
+          <Settings settings={settingsState}></Settings>
+        </footer>
+        */}
+      </main>
     </div>
   );
 }
