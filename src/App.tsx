@@ -14,24 +14,15 @@ const initialCpuLoadrecord: CpuLoadRecord = {
   timeLabel: formatTimestamp(timestamp),
 };
 
-function App() {
-  const cpuLoadRecordsStack = new Stack<CpuLoadRecord>();
-  const cpuPollingService = new CpuPollingService();
-  const alertsNotificationService = new AlertsNotificationService();
- 
+const cpuLoadRecordsStack = new Stack<CpuLoadRecord>();
+const cpuPollingService = new CpuPollingService();
+const alertsNotificationService = new AlertsNotificationService();
+
+function App() { 
   const [cpuLoadRecords, setCpuLoadRecords] = useState<CpuLoadRecord[]>([initialCpuLoadrecord]);
   const [alertNotification, setAlertNotification] = useState<AlertNotification>();
   const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
-
-  const setComputedSettings = (settings: Settings): void => {
-    const computedSettings = {
-      ...settings,
-      bufferSize: settings.expirationWindow / settings.refreshRate,
-    };
-
-    setSettings(computedSettings);
-  };
 
   useEffect(() => {
     const notificationsSubscription = alertsNotificationService.subscribe((alertNotification) => {
@@ -74,7 +65,7 @@ function App() {
         <NotificationBar alertNotification={alertNotification}></NotificationBar>
         <SettingsEditor
           settings={settings}
-          onChange={setComputedSettings}
+          onChange={setSettings}
           onToggle={() => setSettingsVisible(!settingsVisible)}></SettingsEditor>
       </main>
     </div>

@@ -13,7 +13,12 @@ interface SettingsEditorProps {
 
 export const SettingsEditor: React.FC<SettingsEditorProps> = ({ settings = defaultSettings, onChange, onToggle }) => {
   const handleChange = (changedProp: Partial<Settings>): void => {
-    onChange({ ...settings, ...changedProp });
+    const updatedSettings = { ...settings, ...changedProp };
+    const computedSettings = {
+      ...updatedSettings,
+      bufferSize: updatedSettings.expirationWindow / updatedSettings.refreshRate,
+    };
+    onChange(computedSettings);
   };
 
   return (
