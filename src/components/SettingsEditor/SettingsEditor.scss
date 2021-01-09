@@ -1,1 +1,63 @@
+.settings {
+  position: absolute;
+  width: 100%;
+  min-height: 410px;
+  z-index: 2000;
+  background: #3B5059;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  top: 100%;
+  transform: translateY(-35px);
+  transition: transform .3s ease;
 
+  .is-settings-enabled & {
+    transform: translateY(-100%);
+  }
+
+  &__nav {
+    text-align: center;
+    height: 40px;
+
+    button {
+      display: inline-block;
+      width: 70px;
+      height: 70px;
+      box-sizing: border-box;
+      border-radius: 50%;
+      background: #EBEBEB;
+      border: 8px solid #3B5059;
+      transform: translateY(-50%);
+      cursor: pointer;
+      
+      &:hover {
+        border-color: #3e6575;
+      }
+    }
+  }
+
+  &__form {
+    padding: 0;
+    text-align: center;
+
+    fieldset {
+      border: none;
+      padding: 0 0 15px;
+
+      input {
+        display: block;
+        width: 80%;
+        margin: 15px auto 0;
+      }
+    }
+
+    label {
+      font-size: 14px;
+      color:#CCC;
+
+      strong {
+        color: #FFF;
+      }
+    }
+  }
+
+}

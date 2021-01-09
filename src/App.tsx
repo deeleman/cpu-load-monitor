@@ -22,6 +22,16 @@ function App() {
   const [cpuLoadRecords, setCpuLoadRecords] = useState<CpuLoadRecord[]>([initialCpuLoadrecord]);
   const [alertNotification, setAlertNotification] = useState<AlertNotification>();
   const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
+
+  const setComputedSettings = (settings: Settings): void => {
+    const computedSettings = {
+      ...settings,
+      bufferSize: settings.expirationWindow / settings.refreshRate,
+    };
+
+    setSettings(computedSettings);
+  };
 
   useEffect(() => {
     const notificationsSubscription = alertsNotificationService.subscribe((alertNotification) => {
@@ -52,7 +62,7 @@ function App() {
         <h1>CPU Load Monitor</h1>
         <img src={logo} alt="App Monitoring Logo" />
       </header>
-      <main>
+      <main className={settingsVisible ? 'is-settings-enabled' : void 0}>
         <CpuLoadGauge
           currentRecord={cpuLoadRecords[0]}
           refreshRate={settings.refreshRate}
@@ -62,9 +72,10 @@ function App() {
           size={settings.bufferSize}
           alertThreshold={settings.cpuLoadAverageThreshold}></HistoryChart>
         <NotificationBar alertNotification={alertNotification}></NotificationBar>
-        <footer className="Settings">
-          <SettingsEditor settings={settings} onChange={setSettings}></SettingsEditor>
-        </footer>
+        <SettingsEditor
+          settings={settings}
+          onChange={setComputedSettings}
+          onToggle={() => setSettingsVisible(!settingsVisible)}></SettingsEditor>
       </main>
     </div>
   );
