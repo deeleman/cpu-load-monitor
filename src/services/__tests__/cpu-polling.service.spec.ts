@@ -1,4 +1,4 @@
-import { settings } from '../../settings';
+import { defaultSettings } from '../../settings';
 import { CpuPollingService } from '../cpu-polling.service';
 import * as httpClentModule from '../http-client.service';
 
@@ -34,7 +34,7 @@ describe('CpuPollingService', () => {
 
   test('should let peeking into the polling rate via the refreshRate property', () => {
     const cpuPollingService = new CpuPollingService();
-    expect(cpuPollingService.refreshRate).toBe(settings.refreshRate);
+    expect(cpuPollingService.refreshRate).toBe(defaultSettings.refreshRate);
   });
 
   test('should support configuring the object with a custom polling rate', () => {

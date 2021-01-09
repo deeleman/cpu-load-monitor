@@ -4,6 +4,6 @@ import App from './App';
 
 test('renders last CPU load element', () => {
   render(<App />);
-  const cpuLoadElement = screen.getByText(/Time/i);
+  const cpuLoadElement = screen.getByText(/CPU Load Monitor/i);
   expect(cpuLoadElement).toBeInTheDocument();
 });
