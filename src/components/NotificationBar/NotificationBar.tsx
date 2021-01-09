@@ -24,22 +24,20 @@ export const NotificationBar: React.FC<NotificationBarProps> = ({ alertNotificat
     const headerText = alertNotification.type === AlertNotificationType.HeavyLoad ? 'CPU under heavy load' : 'Your CPU is recovered';
 
     return (
-      <React.Fragment>
-        <div className={`alert ${alertClassName}`}>
-          <img className="alert__icon" src={icon} alt="CPU alert"></img>
-          <div className="alert__status">
-            <h3>{headerText}</h3>
-            <span>Last on {formatTimestamp(alertNotification.emittedOn!)}</span>
-          </div>
-          <div className="alert__details">
-            <h4>{alertNotification.cpuLoadRecords.length}</h4>
-            <p>
-              alerts since
-              <strong>{formatTimestamp(alertNotification.createdOn)}</strong>
-            </p>
-          </div>
+      <div className={`alert ${alertClassName}`}>
+        <img className="alert__icon" src={icon} alt="CPU alert"></img>
+        <div className="alert__status">
+          <h3>{headerText}</h3>
+          <span>Last on {formatTimestamp(alertNotification.emittedOn!)}</span>
         </div>
-      </React.Fragment>
+        <div className="alert__details">
+          <h4>{alertNotification.cpuLoadRecords.length}</h4>
+          <p>
+            alerts since
+            <strong>{formatTimestamp(alertNotification.createdOn)}</strong>
+          </p>
+        </div>
+      </div>
     );
   }
 };
