@@ -3,13 +3,13 @@ import { Settings, defaultSettings } from '../../settings';
 import settingsIcon from './assets/settings-icon.png';
 import './SettingsEditor.scss';
 
-interface SettingsEditorProps {
+type SettingsEditorProps = {
   settings: Settings;
   onChange: (settings: Settings) => void;
   onToggle: () => void;
 }
 
-export const SettingsEditor: React.FC<SettingsEditorProps> = ({ settings = defaultSettings, onChange, onToggle }) => {
+export const SettingsEditor = ({ settings = defaultSettings, onChange, onToggle }: SettingsEditorProps) => {
   const handleChange = (changedProp: Partial<Settings>): void => {
     const updatedSettings = { ...settings, ...changedProp };
     const computedSettings = {

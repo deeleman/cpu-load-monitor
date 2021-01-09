@@ -2,7 +2,7 @@ import React from 'react';
 import { CpuLoadRecord } from '../../models';
 import './CpuLoadGauge.scss';
 
-interface CpuLoadGaugeProps {
+type CpuLoadGaugeProps = {
   currentRecord: CpuLoadRecord;
   refreshRate: number;
   alertThreshold: number;
@@ -16,7 +16,7 @@ enum GaugeTheme {
 
 const warningThreshold = 0.85; // Enables warning theme on {warningThreshold}% of normal load
 
-export const CpuLoadGauge: React.FC<CpuLoadGaugeProps> = ({ currentRecord, refreshRate, alertThreshold }) => {
+export const CpuLoadGauge = ({ currentRecord, refreshRate, alertThreshold }: CpuLoadGaugeProps) => {
   const animationDurationStyle = { animationDuration: `${Math.round(refreshRate / 1000)}s` };
   const gaugeTheme = currentRecord.loadAvg >= alertThreshold ? GaugeTheme.Danger :
     currentRecord.loadAvg >= (alertThreshold * warningThreshold) ? GaugeTheme.Warning :

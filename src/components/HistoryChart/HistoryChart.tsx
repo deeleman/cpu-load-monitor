@@ -2,7 +2,7 @@ import React from 'react';
 import { CpuLoadRecord } from '../../models';
 import './HistoryChart.scss';
 
-interface HistoryChartProps {
+type HistoryChartProps = {
   records: CpuLoadRecord[];
   size: number;
   alertThreshold: number;
@@ -11,7 +11,7 @@ interface HistoryChartProps {
 const chartHeight = 240; // Keep in sync with component CSS
 const chartThreshold = chartHeight / 2; // Waypoint where records represent heavy load
 
-export const HistoryChart: React.FC<HistoryChartProps> = ({ records, size, alertThreshold }) => {
+export const HistoryChart = ({ records, size, alertThreshold }: HistoryChartProps) => {
   const ghostRecordsRequired = size - records.length;
   const ghostChartItems = [];
   for (let i = 0; i < ghostRecordsRequired; i++) {

@@ -6,11 +6,11 @@ import heavyLoadIcon from './assets/heavy-load-icon.png';
 import recoveryIcon from './assets/recovery-icon.png';
 import './NotificationBar.scss';
 
-interface NotificationBarProps {
+type NotificationBarProps = {
   alertNotification?: AlertNotification;
 }
 
-export const NotificationBar: React.FC<NotificationBarProps> = ({ alertNotification }) => {
+export const NotificationBar = ({ alertNotification }: NotificationBarProps) => {
   if (alertNotification === void 0) {
     return (
       <div className="notification-bar">
