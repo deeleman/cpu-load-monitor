@@ -6,8 +6,6 @@ $gauge-bar-width: 4px;
   animation-name: gaugeFillAnimation;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  animation-direction: normal;
-  animation-fill-mode: forwards;
 }
 
 .cpu-load-gauge {
