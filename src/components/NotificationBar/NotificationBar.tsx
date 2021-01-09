@@ -7,7 +7,7 @@ import recoveryIcon from './assets/recovery-icon.png';
 import './NotificationBar.scss';
 
 type NotificationBarProps = {
-  alertNotification?: AlertNotification;
+  alertNotification?: Required<AlertNotification>;
 }
 
 export const NotificationBar = ({ alertNotification }: NotificationBarProps) => {
@@ -28,7 +28,7 @@ export const NotificationBar = ({ alertNotification }: NotificationBarProps) => 
         <img className="alert__icon" src={icon} alt="CPU alert"></img>
         <div className="alert__status">
           <h3>{headerText}</h3>
-          <span>Last on {formatTimestamp(alertNotification.emittedOn!)}</span>
+          <span>Last on {formatTimestamp(alertNotification.emittedOn)}</span>
         </div>
         <div className="alert__details">
           <h4>{alertNotification.cpuLoadRecords.length}</h4>
