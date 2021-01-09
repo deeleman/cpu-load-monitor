@@ -25,32 +25,6 @@ const TIME_SERIES_EXPIRATION_LIMIT_MS = 600000;
 
 /**
  * @description
- * `BUFFER_SIZE`: The application displays data that falls within the `TIME_SERIES_EXPIRATION_LIMIT_MS` period.
- * The amount of data to be displayed will also be dictated by the `REFRESH_RATE_MS`, since the application is expected
- * to visually render a {n} amount of CPU load entries, as follows:
- * 
- *   n = TIME_SERIES_EXPIRATION_LIMIT_MS / REFRESH_RATE_MS
- * 
- * Since both TIME_SERIES_EXPIRATION_LIMIT_MS or REFRESH_RATE_MS might eventually be edited by
- * the user, leading to data loss whenever the user shrinks the time window just to broaden it again, 
- * the `Stack` instance objects could internally store a wider amount of records, simply by setting up a larger
- * `BUFFER_SIZE` value and constrainign the length of items in display thereafter. Therefore we can prevent
- * undesired data loss if the user constrains the time window and expands it again, 
- * since the Stack objects will still rely on the buffered data to limit the persisted data.
- * 
- * This POC has `BUFFER_SIZE` configured in 'strict mode', though.
- * 
- * @example Use the following setup for override 'strict mode' and configure stacks to allocate up to 100 items.
- * 
- * const BUFFER_SIZE = 100;
- * 
- * @see TIME_SERIES_EXPIRATION_LIMIT_MS
- * @see REFRESH_RATE_MS
- */
-const BUFFER_SIZE = Math.floor(TIME_SERIES_EXPIRATION_LIMIT_MS / REFRESH_RATE_MS); // Strict mode
-
-/**
- * @description
  * `CPU_LOAD_RECOVERY_THRESHOLD_MS`: Minimum time period - in milliseconds - to enforce
  * in order to consider that the CPU is recovered from high average load.
  */
@@ -82,6 +56,28 @@ const LOAD_AVERAGE_THRESHOLD = 1;
  * @see [Node.js Express implementation](/server/index.js)
  */
 const API_ENDPOINT = '/api/cpu';
+
+/**
+ * @description
+ * `BUFFER_SIZE`: The application displays data that falls within the `TIME_SERIES_EXPIRATION_LIMIT_MS` period.
+ * However, the amount of data to be displayed is also dictated by the `REFRESH_RATE_MS`, since the application is expected
+ * to visually render a {n} amount of CPU load entries, as follows:
+ * 
+ *   n = TIME_SERIES_EXPIRATION_LIMIT_MS / REFRESH_RATE_MS
+ * 
+ * Since both TIME_SERIES_EXPIRATION_LIMIT_MS or REFRESH_RATE_MS might eventually be edited by
+ * the user, objects handling records subject to be capped by time expiration will want to leverage
+ * the computed value above. We introduce the concept of `BUFFER_SIZE` as a computed property so
+ * we spare the necessity for its consumers to compute it themselves.
+ * 
+ * This POC has `BUFFER_SIZE` configured in 'strict mode' and should not be updated by hand.
+ * However, the concept of BUFFER is a pretty powerful one and can be extended in the future to 
+ * prevent data loss scenarios when shrinking and broadening up the data persistence window.
+ * 
+ * @see TIME_SERIES_EXPIRATION_LIMIT_MS
+ * @see REFRESH_RATE_MS
+ */
+const BUFFER_SIZE = Math.floor(TIME_SERIES_EXPIRATION_LIMIT_MS / REFRESH_RATE_MS);
 
 /**
  * Default settings upon bootstrap - Do not mutate this object directly.
