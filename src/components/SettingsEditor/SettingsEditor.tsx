@@ -12,11 +12,8 @@ type SettingsEditorProps = {
 export const SettingsEditor = ({ settings = defaultSettings, onChange, onToggle }: SettingsEditorProps) => {
   const handleChange = (changedProp: Partial<Settings>): void => {
     const updatedSettings = { ...settings, ...changedProp };
-    const computedSettings = {
-      ...updatedSettings,
-      bufferSize: updatedSettings.expirationWindow / updatedSettings.refreshRate,
-    };
-    onChange(computedSettings);
+    const bufferSize = updatedSettings.expirationWindow / updatedSettings.refreshRate;
+    onChange({ ...updatedSettings, bufferSize });
   };
 
   return (
