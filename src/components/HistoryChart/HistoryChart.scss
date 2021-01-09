@@ -46,7 +46,7 @@ $component-height: 240px;
     margin: 1px;
     transition: height 1s ease-in;
     background: rgb(0,106,250);
-    background: linear-gradient(0deg, rgba(0,106,250,1) 0%, rgba(0,106,250,1) 40%, rgba(222,171,0,1) 49%, rgba(213,16,16,1) 54%, rgba(94,15,15,1) 83%);
+    background: linear-gradient(0deg, rgba(0,106,250,1) 40%, rgba(222,171,0,1) 49%, rgba(213,16,16,1) 54%, rgba(94,15,15,1) 83%);
     background-position: center bottom;
     background-size: 100% $component-height;
 
