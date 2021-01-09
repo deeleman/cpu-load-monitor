@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { Settings, defaultSettings } from '../../settings';
 import settingsIcon from './assets/settings-icon.png';

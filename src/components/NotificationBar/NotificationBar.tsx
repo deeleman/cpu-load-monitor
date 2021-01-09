@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { AlertNotification, AlertNotificationType } from '../../models';
 import { formatTimestamp } from '../../services';

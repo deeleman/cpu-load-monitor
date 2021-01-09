@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { CpuLoadRecord } from '../../models';
 import './HistoryChart.scss';
