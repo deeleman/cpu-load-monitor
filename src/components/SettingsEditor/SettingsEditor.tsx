@@ -1,5 +1,5 @@
 import React from 'react';
-import { Settings, defaultSettings } from '../../settings';
+import { Settings } from '../../settings';
 import settingsIcon from './assets/settings-icon.png';
 import './SettingsEditor.scss';
 
@@ -9,7 +9,7 @@ type SettingsEditorProps = {
   onToggle: () => void;
 }
 
-export const SettingsEditor = ({ settings = defaultSettings, onChange, onToggle }: SettingsEditorProps) => {
+export const SettingsEditor = ({ settings, onChange, onToggle }: SettingsEditorProps) => {
   const handleChange = (changedProp: Partial<Settings>): void => {
     const updatedSettings = { ...settings, ...changedProp };
     const bufferSize = updatedSettings.expirationWindow / updatedSettings.refreshRate;
@@ -19,7 +19,7 @@ export const SettingsEditor = ({ settings = defaultSettings, onChange, onToggle 
   return (
     <div className="settings">
       <nav className="settings__nav">
-        <button className="settings__toggle" onClick={onToggle}>
+        <button className="settings__toggle" onClick={onToggle} data-testid="toggle">
           <img className="toggle--open" src={settingsIcon} alt="Open Settings" width="32" height="32" />
         </button>
       </nav>
