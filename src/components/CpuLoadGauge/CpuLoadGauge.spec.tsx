@@ -2,13 +2,13 @@
 import '@testing-library/jest-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import React from 'react';
+import { act } from 'react-dom/test-utils';
 import { CpuLoadGauge } from './CpuLoadGauge';
 
 describe('CpuLoadGauge', () => {
   const cpuLoadGaugePropsMock = {
     currentRecord: { loadAvg: 0.56435456, timestamp: 1609981538687, timeLabel: '02:05:38' },
     refreshRate: 10000,
-    alertThreshold: 1,
   }
 
   afterEach(cleanup);
@@ -40,5 +40,14 @@ describe('CpuLoadGauge', () => {
     const updatedPropsMock = { ...cpuLoadGaugePropsMock, currentRecord };
     render(<CpuLoadGauge {...updatedPropsMock} />);
     expect(document.querySelector('.gauge')).toHaveClass('gauge--danger');
+  });
+
+  test('should reset the progress bar animation by toggling it upon receiving a new record', () => {
+    jest.useFakeTimers();
+    render(<CpuLoadGauge {...cpuLoadGaugePropsMock} />);
+    expect(document.querySelector('.gauge__mask')).toBeNull();
+
+    act(() => { jest.runAllTimers(); });
+    expect(document.querySelector('.gauge__mask')).not.toBeNull();
   });
 });
