@@ -18,12 +18,12 @@ $component-height: 240px;
     margin: 0;
     padding: 0 5px;
     background-image: linear-gradient(rgb(26, 40, 46) .1em, transparent .1em);
-    background-size: $component-height/4 $component-height/4;
+    background-size: $component-height/7 $component-height/7;
 
     &::after {
       display: block;
       position: absolute;
-      bottom: $component-height / 2;
+      top: $component-height / 2.9;
       left: 5px;
       right: 5px;
       content: 'threshold';

@@ -9,7 +9,7 @@ type HistoryChartProps = {
 }
 
 const chartHeight = 240; // Keep in sync with component CSS
-const chartThreshold = chartHeight / 2; // Waypoint where records represent heavy load
+const chartThreshold = chartHeight / 1.75; // Waypoint where records represent heavy load
 
 export const HistoryChart = ({ records, size, alertThreshold }: HistoryChartProps) => {
   const ghostRecordsRequired = size - records.length;
@@ -23,7 +23,7 @@ export const HistoryChart = ({ records, size, alertThreshold }: HistoryChartProp
       <ul className="chart__items">
         {records.map((cpuLoadRecord) => (
           <li key={cpuLoadRecord.timestamp}
-            className="chart__item"
+            className="chart__item chart__item--populated"
             style={{ height: `${Math.ceil(chartThreshold * (cpuLoadRecord.loadAvg / alertThreshold))}px` }}>
             <div className="chart__item-time">
               <span><strong>{cpuLoadRecord.loadAvg.toFixed(2)}</strong> {cpuLoadRecord.timeLabel}</span>

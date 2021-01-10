@@ -6,7 +6,7 @@ type CpuLoadGaugeProps = {
   currentRecord: CpuLoadRecord;
   refreshRate: number;
   alertThreshold: number;
-}
+};
 
 enum GaugeTheme {
   Normal = 'gauge--normal',
