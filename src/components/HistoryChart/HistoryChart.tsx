@@ -26,7 +26,10 @@ export const HistoryChart = ({ records, size, alertThreshold }: HistoryChartProp
             className="chart__item chart__item--populated"
             style={{ height: `${Math.ceil(chartThreshold * (cpuLoadRecord.loadAvg / alertThreshold))}px` }}>
             <div className="chart__item-time">
-              <span><strong>{cpuLoadRecord.loadAvg.toFixed(2)}</strong> {cpuLoadRecord.timeLabel}</span>
+              <span>
+                <strong>{cpuLoadRecord.loadAvg.toFixed(2)}</strong> 
+                {cpuLoadRecord.timeLabel}
+              </span>
               <i></i>
             </div>
           </li>

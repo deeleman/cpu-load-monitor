@@ -14,7 +14,7 @@ export const NotificationBar = ({ alertNotification }: NotificationBarProps) => 
   if (alertNotification === void 0) {
     return (
       <div className="notification-bar">
-        <img src={defaultIcon} alt="CPU normal load"></img>
+        <img src={defaultIcon} alt="CPU normal load" width="64" height="64"></img>
         <p>The sun shines on your CPU today</p>
       </div>
     );
@@ -25,7 +25,7 @@ export const NotificationBar = ({ alertNotification }: NotificationBarProps) => 
 
     return (
       <div className={`alert ${alertClassName}`}>
-        <img className="alert__icon" src={icon} alt="CPU alert"></img>
+        <img className="alert__icon" src={icon} alt="CPU alert" width="32" height="32"></img>
         <div className="alert__status">
           <h3>{headerText}</h3>
           <span>Last on {formatTimestamp(alertNotification.emittedOn!)}</span>

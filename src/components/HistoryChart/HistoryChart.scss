@@ -4,8 +4,8 @@ $component-height: 240px;
   margin: 10px 15px;
   height: $component-height;
   border-radius: 10px;
-  background: rgb(13,21,24);
-  background: linear-gradient(0deg, rgba(13, 21, 24, 1) 20%, rgba(26, 40, 46, 0) 100%);
+  background: #0d1518;
+  background: linear-gradient(0deg, #0d1518 20%, rgba(26, 40, 46, 0) 100%);
 
   &__items {
     position: relative;
@@ -17,20 +17,21 @@ $component-height: 240px;
     list-style-type: none;
     margin: 0;
     padding: 0 5px;
-    background-image: linear-gradient(rgb(26, 40, 46) .1em, transparent .1em);
+    background-image: linear-gradient(#1a282e .1em, transparent .1em);
     background-size: $component-height/7 $component-height/7;
 
     &::after {
       display: block;
       position: absolute;
-      top: $component-height / 2.9;
+      top: 2 + $component-height / 2.9;
       left: 5px;
       right: 5px;
-      content: 'threshold';
-      opacity: .4;
+      content: 'heavy load threshold';
+      color: rgba(255, 255, 255, 0.6);
       font-size: 12px;
       padding-bottom: 4px;
       text-align: center;
+      border-bottom: 1px dashed #977400;
     }
   }
 
@@ -43,15 +44,16 @@ $component-height: 240px;
     border-top-right-radius: 10px;
     width: 100%;
     height: 1px;
+    max-height: $component-height;
     margin: 1px;
     transition: height 1s ease-in;
-    background: rgb(0,106,250);
-    background: linear-gradient(0deg, rgba(0,106,250,1) 40%, rgba(222,171,0,1) 49%, rgba(213,16,16,1) 54%, rgba(94,15,15,1) 83%);
+    background: #006afa;
+    background: linear-gradient(0deg, #006afa 40%, #deab00 49%, #d51010 54%, #5e0f0f 83%);
     background-position: center bottom;
     background-size: 100% $component-height;
 
     &:hover {
-      background: rgba(126,218,230,1);
+      background: #7edae6;
       cursor: pointer;
     }
 
@@ -73,6 +75,7 @@ $component-height: 240px;
       color: #999888;
 
       strong {
+        display: block;
         color: rgb(13,21,24);
       }
   

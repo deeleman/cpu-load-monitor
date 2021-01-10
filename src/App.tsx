@@ -51,7 +51,7 @@ function App() {
     <div className="App">
       <header>
         <h1>CPU Load Monitor</h1>
-        <img src={logo} alt="App Monitoring Logo" />
+        <img src={logo} alt="App Monitoring Logo" width="32" height="32" />
       </header>
       <main className={settingsVisible ? 'is-settings-enabled' : void 0}>
         <CpuLoadGauge
