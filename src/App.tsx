@@ -8,7 +8,7 @@ import { Settings, defaultSettings } from './settings';
 import logo from './assets/logo.png';
 
 const timestamp = Date.now();
-const initialCpuLoadrecord: CpuLoadRecord = {
+const initialCpuLoadRecord: CpuLoadRecord = {
   loadAvg: 0,
   timestamp,
   timeLabel: formatTimestamp(timestamp),
@@ -19,7 +19,7 @@ const cpuPollingService = new CpuPollingService();
 const alertsNotificationService = new AlertsNotificationService();
 
 function App() { 
-  const [cpuLoadRecords, setCpuLoadRecords] = useState<CpuLoadRecord[]>([initialCpuLoadrecord]);
+  const [cpuLoadRecords, setCpuLoadRecords] = useState<CpuLoadRecord[]>([initialCpuLoadRecord]);
   const [alertNotification, setAlertNotification] = useState<AlertNotification>();
   const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
@@ -56,13 +56,13 @@ function App() {
       <main className={settingsVisible ? 'is-settings-enabled' : void 0}>
         <CpuLoadGauge
           currentRecord={cpuLoadRecords[0]}
-          refreshRate={settings.refreshRate}
-          alertThreshold={settings.cpuLoadAverageThreshold}></CpuLoadGauge>
+          refreshRate={settings.refreshRate}></CpuLoadGauge>
         <HistoryChart
           records={cpuLoadRecords}
-          size={settings.bufferSize}
-          alertThreshold={settings.cpuLoadAverageThreshold}></HistoryChart>
-        <NotificationBar alertNotification={alertNotification}></NotificationBar>
+          size={settings.bufferSize}></HistoryChart>
+        <NotificationBar
+          alertNotification={alertNotification}
+          currentLoadAvg={cpuLoadRecords[0].loadAvg}></NotificationBar>
         <SettingsEditor
           settings={settings}
           onChange={setSettings}
