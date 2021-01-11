@@ -3,6 +3,7 @@ import { AlertsNotificationService } from '../alerts-notification.service';
 
 describe('AlertsNotificationService', () => {
   let alertsNotificationService: AlertsNotificationService;
+  let unsubscriptionHandler: () => void;
   const subscriptionSpy = jest.fn();
   const testingAlertSettings = {
     cpuRecoveryNotificationThreshold: 10000,
@@ -15,7 +16,7 @@ describe('AlertsNotificationService', () => {
 
   beforeEach(() => {
     alertsNotificationService = new AlertsNotificationService(testingAlertSettings);
-    alertsNotificationService.subscribe(subscriptionSpy);
+    unsubscriptionHandler = alertsNotificationService.subscribe(subscriptionSpy);
   });
 
   afterEach(subscriptionSpy.mockClear);
@@ -270,7 +271,7 @@ describe('AlertsNotificationService', () => {
         ],
       });
     });
-  })
+  });
 
   describe('should support custom settings configuration', () => {
     const updatedAlertSettings = {
@@ -304,6 +305,8 @@ describe('AlertsNotificationService', () => {
     });
 
     test('by passing a settings object thru the updateSettings() API method', () => {
+      alertsNotificationService = new AlertsNotificationService();
+      alertsNotificationService.subscribe(subscriptionSpy);
       alertsNotificationService.updateSettings(updatedAlertSettings);
 
       // Emulates mild load CPU records spanning 10 seconds ONLY (not enough for a notification under default settings)
@@ -327,5 +330,19 @@ describe('AlertsNotificationService', () => {
         ],
       });
     });
+  });
+
+  test('should not emit further alerts to any consumer after unsubscribing once', () => {
+    // First we unsubcribe all consumers
+    unsubscriptionHandler();
+
+    // Then emulate heavy load CPU records spanning more than 10 seconds (min. time required for spawning an alert)
+    alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932400001 });
+    alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932405002 });
+    alertsNotificationService.pipe({ loadAvg: 1.10, timeLabel: '', timestamp: 1609932410003 });
+
+    jest.advanceTimersToNextTimer();
+
+    expect(subscriptionSpy).not.toHaveBeenCalled();
   });
 });
