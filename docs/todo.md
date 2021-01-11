@@ -1,37 +1,40 @@
 # TO-DO Items and Future enhancements
 
-## Eject application from CRA or introduce a better, leaner build workflow
+### Eject application from CRA or introduce a better, leaner build workflow
 TBD
 
-## Split frontend and backend into separate packages
+### Split frontend and backend into separate packages
 TBD
 
-## Mitigate application safety risk by locking dependency versioning
+### Setup a build pipeline for server
 TBD
 
-## Rethink current business logic for continuous alerts
+### Mitigate application safety risk by locking dependency versioning
 TBD
 
-## Rethink current business logic for recovery notifications
+### Rethink current business logic for continuous alerts
 TBD
 
-## Replace ticking UX to prevent unaccuracy due to racing conditions
+### Rethink current business logic for recovery notifications
 TBD
 
-## Implement full I18n support
+### Replace ticking UX to prevent unaccuracy due to racing conditions
 TBD
 
-## Provide better A11y by introducing fully responsive icons and UI
+### Implement full I18n support
 TBD
 
-## Introduce a dark/light mode toggle
+### Provide better A11y by introducing fully responsive icons and UI
 TBD
 
-## Reorganize SASS code for easier future maintainance
+### Introduce a dark/light mode toggle
 TBD
 
-## Improve code quality and consistency with ESLint, Prettier, etc
+### Reorganize SASS code for easier future maintainance
 TBD
 
-## Assess style clashing prevention with strategies such as CSS Modules, CSS-in-JS, etc
+### Improve code quality and consistency with ESLint, Prettier, etc
+TBD
+
+### Assess style clashing prevention with strategies such as CSS Modules, CSS-in-JS, etc
 TBD

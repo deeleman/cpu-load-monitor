@@ -1,6 +1,6 @@
 {
   "name": "cpu-load-monitor",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -23,17 +23,12 @@
     "concurrently": "^5.3.0"
   },
   "scripts": {
-    "start:server": "node ./server",
-    "start": "concurrently \"node ./server\" \"react-scripts start\"",
-    "test": "react-scripts test",
+    "dev": "concurrently \"node ./server\" \"react-scripts start\"",
+    "test:ui": "react-scripts test",
     "test:server": "jest ./server/**/*.test.js",
-    "test:ci": "yarn test:server && yarn test --watchAll=false --coverage",
+    "test": "yarn test:server && yarn test:ui --watchAll=false --coverage",
     "build": "react-scripts build",
-    "build:ci": "yarn build && yarn test:all"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/deeleman/cpu-load-monitor.git"
+    "serve": "yarn build && node ./server"
   },
   "keywords": [
     "typescript",
@@ -41,13 +36,11 @@
     "express",
     "javascript",
     "react",
-    "css"
+    "css",
+    "sass"
   ],
-  "author": "Pablo Deeleman <deeleman@gmail.com>",
+  "author": "Pablo Deeleman <deeleman@gmail.com> (https://uiux.es)",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/deeleman/cpu-load-monitor/issues"
-  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -70,6 +63,7 @@
     "resetMocks": false,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
+      "server/**/*.{js,ts}",
       "!<rootDir>/node_modules/",
       "!<rootDir>/src/settings.ts",
       "!<rootDir>/src/**/index.{js,jsx,ts,tsx}"
