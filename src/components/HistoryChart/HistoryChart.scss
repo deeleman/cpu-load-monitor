@@ -47,6 +47,7 @@ $component-height: 240px; // Keep in sync with values defined in component funct
     width: 100%;
     height: 1px;
     max-height: $component-height;
+    min-width: 1px;
     margin: 1px;
     transition: height 1s ease-in;
     background: getTheme(chartBarNormal);

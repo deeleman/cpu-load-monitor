@@ -22,6 +22,9 @@ This will run the CRA `build` script under the hood to compile the UI layer. Mor
 
 You can then check the application by pointing your browser to [http://localhost:8080](http://localhost:8080).
 
+### Beware of Chrome's domain security policy
+When checking a a local site under `http://localhost `, Chrome will force its secure flavor under `https`. Please [follow these steps](https://support.google.com/chrome/thread/53901111?hl=en) to bypass this should the browser does not load the site.
+
 ### Customising the server port in use
 Some basic settings such as the server port in use can be configured by [editing by hand](server/settings.js) the `server/settings.js` file. As a general principle, you will probably want to to leave the default configured settings as is and the port number is the only setting you might want to update eventually, if needed.
 
