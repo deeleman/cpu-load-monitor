@@ -1,18 +1,14 @@
+@import 'toolkit';
+
+// - Component-specific gauge size configuration
 $gauge-size: 200px;
 $gauge-bar-width: 4px;
-
-@mixin gaugebar-animation {
-  transform: rotate(180deg);
-  animation-name: gaugeFillAnimation;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
 
 .cpu-load-gauge {
   margin: 0 auto;
   width: $gauge-size;
   height: $gauge-size;
-  background: #111;
+  background: getTheme(windowBackgroundColor);
   border-radius: 50%;
 }
 
@@ -29,12 +25,12 @@ $gauge-bar-width: 4px;
     clip: rect(0px, $gauge-size, $gauge-size, $gauge-size/2);
 
     &--full {
-      @include gaugebar-animation;
+      @include gaugebarAnimation;
     }
 
     &-fill {
       clip: rect(0px, $gauge-size/2, $gauge-size, 0px);
-      @include gaugebar-animation;
+      @include gaugebarAnimation;
     }
   }
 
@@ -45,7 +41,7 @@ $gauge-bar-width: 4px;
     width: $gauge-size - ($gauge-bar-width * 2);
     height: $gauge-size - ($gauge-bar-width * 2);
     border-radius: 50%;
-    background: #1a282e;
+    background: getTheme(mainBackgroundColor);
     text-align: center;
     margin-top: $gauge-bar-width;
     margin-left: $gauge-bar-width;
@@ -55,7 +51,7 @@ $gauge-bar-width: 4px;
     &-load {
       display: block;
       font-size: 1.8em;
-      border-bottom: 1px solid #111;
+      border-bottom: 1px solid getTheme(windowBackgroundColor);
       margin: 0 $gauge-bar-width 15px;
       padding-bottom: 8px;
     }
@@ -71,43 +67,23 @@ $gauge-bar-width: 4px;
   }
 
   &--normal &__mask-fill { 
-    background-color: #0368ac;
+    background-color: getTheme(defaultWidgetColor);
   }
   &--normal &__content {
-    color: #85ceff;
+    color: getTheme(defaultTextColor);
   }
 
   &--warning &__mask-fill {
-    background-color: #af9500;
+    background-color: getTheme(warningWidgetColor);
   }
   &--warning &__content {
-    color: #c0a037;
+    color: getTheme(warningTextColor);
   }
 
   &--danger &__mask-fill {
-    background-color: #c31303;
+    background-color: getTheme(dangerWidgetColor);
   }
   &--danger &__content {
-    color: #eeb6ae;
-  }
-}
- 
-@keyframes gaugeFillAnimation {
-  0% {
-    transform: rotate(0deg);
-    opacity: 0;
-  }
-  5% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  98% {
-    opacity: 0.8;
-  }
-  100% {
-    transform: rotate(180deg);
-    opacity: 0;
+    color: getTheme(dangerTextColor);
   }
 }

@@ -1,0 +1,43 @@
+// ----------------------------------------------
+// Edit theme settings below at your convenience
+// ----------------------------------------------
+// - Fonts family set
+$appFontsFamily             : 'Lato', sans-serif;
+
+// - Theme color palette
+$theme: (
+  'windowBackgroundColor'     : #111111,
+  'windowTextColor'           : #CCCCCC,
+  'mainBackgroundColor'       : #1a282e,
+  'navBackgroundColor'        : #3B5059,
+  'defaultTextColor'          : #85ceff,
+  'defaultWidgetColor'        : #0368ac,
+  'warningTextColor'          : #c0a037,
+  'warningWidgetColor'        : #af9500,
+  'dangerTextColor'           : #eeb6ae,
+  'dangerWidgetColor'         : #c31303,
+  'chartBottomColor'          : #0d1518,
+  'chartTopColor'             : #1a282e,
+  'thresholdLabelColor'       : rgba(255, 255, 255, 0.6),
+  'thresholdLineColor'        : #977400,
+  'chartBarNormal'            : #006afa,
+  'chartBarWarning'           : #deab00,
+  'chartBarDanger'            : #d51010,
+  'chartBarOverflow'          : #5e0f0f,
+  'chartBarMouseover'         : #7edae6,
+  'overlayBackground'         : #FFFFFF,
+  'overlayText'               : #999888,
+  'overlayHighlightedText'    : #0d1518,
+  'settingsButtonBackground'  : #EBEBEB,
+  'settingsButtonBorderHover' : #3e6575,
+);
+
+// - Mobile version breakpoint
+$breakpoint                 : 760px;
+
+// ----------------------------------------------
+// Theme variable getter helper - Do not edit
+// ----------------------------------------------
+@function getTheme($element) {
+  @return map-get($theme, $element);
+}

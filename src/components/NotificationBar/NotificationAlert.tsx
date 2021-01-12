@@ -25,6 +25,8 @@ export const NotificationAlert = ({ alertNotification }: NotificationAlertProps)
         <h4>{alertNotification.cpuLoadRecords.length} </h4>
         <p>
           alerts since 
+        </p>
+        <p>
           <strong> {formatTimestamp(alertNotification.createdOn)}</strong>
         </p>
       </div>

@@ -1,6 +1,9 @@
+@import 'toolkit';
+
 .status {
   padding: 10px 5px 0;
   text-align: center;
+  @include fadeInAnimation();
 
   p {
     font-size: 18px;

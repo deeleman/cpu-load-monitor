@@ -1,9 +1,12 @@
+@import 'toolkit';
+
 .alert {
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
   padding: 5px 20px;
   max-width: 400px;
+  @include fadeInAnimation();
 
   &__status {
     display: flex;
@@ -21,8 +24,8 @@
     
     span {
       font-size: 14px;
-      background: #111;
-      color: #999;
+      background: getTheme(windowBackgroundColor);
+      color: getTheme(overlayText);
       border-radius: 4px;
       padding: 3px 6px;
     }
@@ -35,38 +38,44 @@
   }
 
   &__details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 90px;
-    height: 110px;
+    min-height: 90px;
     text-align: center;
-    background: rgb(13,21,24);
+    background: getTheme(chartBottomColor);
     border-radius: 10px;
+    padding: 5px 0 8px;
+
+    > * {
+      margin: 0;
+    }
 
     h4 {
       font-size: 38px;
-      margin: 5px 0 0;
-      color: #FFF;
+      color: getTheme(overlayBackground);;
     }
     
     p {
       font-size: 12px;
       margin: 0;
-      color: #999;
+      color: getTheme(overlayText);
       
       strong {
         display: block;
         font-size: 16px;
-        margin: 5px 0;
       }
     }
   }
 
   &--heavyload &__status h3,
   &--heavyload &__details p strong {
-    color: #eeb6ae;
+    color: getTheme(dangerTextColor);
   }
 
   &--recovery &__status h3,
   &--recovery &__details p strong {
-    color: #85ceff;
+    color: getTheme(defaultTextColor);
   }
 }

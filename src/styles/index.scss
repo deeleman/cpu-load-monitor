@@ -1,14 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap');
+@import 'normalize';
+@import 'animations';
+@import 'toolkit';
 
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: $appFontsFamily;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   font-size: calc(10px + 2vmin);
-  color: #CCC;
+  color: getTheme(windowTextColor);
 
-  background-color: #111;
+  background-color: getTheme(windowBackgroundColor);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -16,8 +19,4 @@ body {
   justify-content: center;
 
   margin: 0;
-}
-
-*:focus {
-  outline: none;
 }

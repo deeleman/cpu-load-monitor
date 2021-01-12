@@ -3,7 +3,6 @@ import { AlertNotification } from '../../models';
 import { defaultSettings } from '../../settings';
 import { NotificationAlert } from './NotificationAlert';
 import { NotificationPlaceholder } from './NotificationPlaceholder';
-import './NotificationBar.scss';
 
 type NotificationBarProps = {
   alertNotification?: AlertNotification;

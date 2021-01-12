@@ -1,9 +1,11 @@
+@import 'toolkit';
+
 .settings {
   position: absolute;
   width: 100%;
   min-height: 410px;
   z-index: 2000;
-  background: #3B5059;
+  background: getTheme(navBackgroundColor);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   top: 100%;
@@ -24,13 +26,13 @@
       height: 70px;
       box-sizing: border-box;
       border-radius: 50%;
-      background: #EBEBEB;
-      border: 8px solid #3B5059;
+      background: getTheme(settingsButtonBackground);
+      border: 8px solid getTheme(navBackgroundColor);
       transform: translateY(-50%);
       cursor: pointer;
       
       &:hover {
-        border-color: #3e6575;
+        border-color: getTheme(settingsButtonBorderHover);
       }
     }
   }
@@ -53,10 +55,10 @@
 
     label {
       font-size: 14px;
-      color:#CCC;
+      color: getTheme(windowTextColor);
 
       strong {
-        color: #FFF;
+        color: getTheme(windowTextColor);
       }
     }
   }

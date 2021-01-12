@@ -1,0 +1,18 @@
+@import 'theme';
+
+@mixin breakpoint($point: $breakpoint) {
+  @media (max-width: $point) { 
+    @content; 
+  }
+}
+
+@mixin fadeInAnimation($duration: 1s) {
+  animation: alertFadeIn $duration ease-out;
+}
+
+@mixin gaugebarAnimation {
+  transform: rotate(180deg);
+  animation-name: gaugeFillAnimation;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}

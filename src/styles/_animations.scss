@@ -1,0 +1,28 @@
+@keyframes alertFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes gaugeFillAnimation {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: rotate(180deg);
+    opacity: 0;
+  }
+}

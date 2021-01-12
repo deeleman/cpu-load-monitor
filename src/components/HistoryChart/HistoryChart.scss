@@ -1,11 +1,13 @@
-$component-height: 240px;
+@import 'toolkit';
+
+$component-height: 240px; // Keep in sync with values defined in component function
 
 .chart {
   margin: 10px 15px;
   height: $component-height;
   border-radius: 10px;
-  background: #0d1518;
-  background: linear-gradient(0deg, #0d1518 20%, rgba(26, 40, 46, 0) 100%);
+  background: getTheme(chartBottomColor);
+  background: linear-gradient(0deg, getTheme(chartBottomColor) 20%, getTheme(chartTopColor) 100%);
 
   &__items {
     position: relative;
@@ -17,21 +19,21 @@ $component-height: 240px;
     list-style-type: none;
     margin: 0;
     padding: 0 5px;
-    background-image: linear-gradient(#1a282e .1em, transparent .1em);
+    background-image: linear-gradient(getTheme(mainBackgroundColor) .1em, transparent .1em);
     background-size: $component-height/7 $component-height/7;
 
     &::after {
       display: block;
       position: absolute;
-      top: 2 + $component-height / 2.9;
+      top: 4 + $component-height / 2.9;
       left: 5px;
       right: 5px;
       content: 'heavy load threshold';
-      color: rgba(255, 255, 255, 0.6);
+      color: getTheme(thresholdLabelColor);
       font-size: 12px;
       padding-bottom: 4px;
       text-align: center;
-      border-bottom: 1px dashed #977400;
+      border-bottom: 1px dashed getTheme(thresholdLineColor);
     }
   }
 
@@ -47,13 +49,13 @@ $component-height: 240px;
     max-height: $component-height;
     margin: 1px;
     transition: height 1s ease-in;
-    background: #006afa;
-    background: linear-gradient(0deg, #006afa 40%, #deab00 49%, #d51010 54%, #5e0f0f 83%);
+    background: getTheme(chartBarNormal);
+    background: linear-gradient(0deg, getTheme(chartBarNormal) 40%, getTheme(chartBarWarning) 49%, getTheme(chartBarDanger) 54%, getTheme(chartBarOverflow) 83%);
     background-position: center bottom;
     background-size: 100% $component-height;
 
     &:hover {
-      background: #7edae6;
+      background: getTheme(chartBarMouseover);
       cursor: pointer;
     }
 
@@ -64,7 +66,7 @@ $component-height: 240px;
       margin-top: 10px;
       transform: translate(-50%, 100%);
       padding: 4px 8px;
-      background: #FFF;
+      background: getTheme(overlayBackground);
       font-size: 12px;
       text-align: center;
       border-radius: 4px;
@@ -72,11 +74,12 @@ $component-height: 240px;
       opacity: 0;
       transition: opacity 0.6s;
       z-index: 1000;
-      color: #999888;
+      color: getTheme(overlayText);
 
       strong {
         display: block;
-        color: rgb(13,21,24);
+        color: getTheme(overlayHighlightedText);
+        padding-bottom: 5px;
       }
   
       i {
@@ -95,7 +98,7 @@ $component-height: 240px;
           height: 5px;
           left: 50%;
           transform: translate(-50%,50%) rotate(45deg);
-          background: #FFF;
+          background: getTheme(overlayBackground);
         }
       }
     }
