@@ -4,11 +4,17 @@
   position: relative;
   margin: 0 auto;
   background: getTheme(mainBackgroundColor);
-  min-height: 760px;
-  min-width: 400px;
+  height: 760px;
+  width: 400px;
 
   border-radius: 10px;
   overflow: hidden;
+
+  @include breakpoint() {
+    border-radius: 0;
+    height: 100vh;
+    width: 100vw;
+  }
 
   > header {
     text-align: center;

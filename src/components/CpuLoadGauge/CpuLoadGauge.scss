@@ -10,6 +10,11 @@ $gauge-bar-width: 4px;
   height: $gauge-size;
   background: getTheme(windowBackgroundColor);
   border-radius: 50%;
+
+  @include breakpoint() {
+    width: $gauge-size / 2;
+    height: $gauge-size / 2;
+  }
 }
 
 .gauge {
@@ -19,10 +24,19 @@ $gauge-bar-width: 4px;
     height: $gauge-size;
     position: absolute;
     border-radius: 50%;
+
+    @include breakpoint() {
+      width: $gauge-size / 2;
+      height: $gauge-size / 2;
+    }
   }
 
   &__mask {
     clip: rect(0px, $gauge-size, $gauge-size, $gauge-size/2);
+    
+    @include breakpoint() {
+      clip: rect(0px, $gauge-size / 2, $gauge-size / 2, $gauge-size / 4);
+    }
 
     &--full {
       @include gaugebarAnimation;
@@ -31,6 +45,10 @@ $gauge-bar-width: 4px;
     &-fill {
       clip: rect(0px, $gauge-size/2, $gauge-size, 0px);
       @include gaugebarAnimation;
+
+      @include breakpoint() {
+        clip: rect(0px, $gauge-size / 4, $gauge-size / 2, 0px);
+      }
     }
   }
 
@@ -47,6 +65,13 @@ $gauge-bar-width: 4px;
     margin-left: $gauge-bar-width;
     position: absolute;
     z-index: 100;
+
+    @include breakpoint() {
+      width: ($gauge-size / 2) - $gauge-bar-width;
+      height: ($gauge-size / 2) - $gauge-bar-width;
+      margin-top: $gauge-bar-width / 2;
+      margin-left: $gauge-bar-width / 2;
+    }
     
     &-load {
       display: block;
@@ -54,6 +79,11 @@ $gauge-bar-width: 4px;
       border-bottom: 1px solid getTheme(windowBackgroundColor);
       margin: 0 $gauge-bar-width 15px;
       padding-bottom: 8px;
+
+      @include breakpoint() {
+        margin: 0 ($gauge-bar-width / 2) 15px;
+        font-size: 1em;
+      }
     }
     
     &-time {

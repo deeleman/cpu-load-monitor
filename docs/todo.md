@@ -51,7 +51,7 @@ The UI features very few text labels and also displays local times based on UTC 
 Although [Lighthouse](https://developers.google.com/web/tools/lighthouse) yields a 100% accessibility score for desktop, the application would definitely achieve a higher value by observing the following strategies:
 
 * *Provide a more contrasted UI*, so visually impaired users can better access to its content. A good way to achieve this would be to implement a _light mode_ option, configurable by the user by means of a toggle control in the sliding settings pane.
-* *Implement full viewport responsiveness*: The app now features a very limited responsivity but the data would be better displayed, hence more accessible, if a responsive layout was in place, taking advantage of the window real estate in larger resolutions to better presetn information.
+* *Implement full viewport responsiveness*: The app now features a **very limited** responsiveness under mobile look-alike viewports. However the data would be better displayed, hence more accessible, if a fully-featured responsive layout was in place, taking advantage of the window real estate in larger resolutions to better present information but also providing a good final experience in smaller devices.
 * Implement low resolution images for mobile devices, leveraging the `srcset` and `size` attributes of the `<img>` tag along with properly resized versions of the current icons catalogue.
 
 ### 10. Reorganize CSS/SASS code for easier future maintainance

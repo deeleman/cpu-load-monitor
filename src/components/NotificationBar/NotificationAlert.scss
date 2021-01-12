@@ -4,9 +4,13 @@
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 5px 20px;
+  padding: 15px 20px;
   max-width: 400px;
   @include fadeInAnimation();
+
+  @include breakpoint() {
+    padding-top: 4px;
+  }
 
   &__status {
     display: flex;
@@ -20,6 +24,10 @@
       margin: 0;
       font-size: 28px;
       text-align: center;
+
+      @include breakpoint() {
+        font-size: 20px;
+      }
     }
     
     span {
@@ -48,13 +56,21 @@
     border-radius: 10px;
     padding: 5px 0 8px;
 
+    @include breakpoint() {
+      min-height: 64px;
+    }
+
     > * {
       margin: 0;
     }
 
     h4 {
       font-size: 38px;
-      color: getTheme(overlayBackground);;
+      color: getTheme(overlayBackground);
+
+      @include breakpoint() {
+        font-size: 20px;
+      }
     }
     
     p {
