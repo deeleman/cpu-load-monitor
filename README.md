@@ -46,10 +46,10 @@ The code in this application is audited with ESLint to ensure code consistency. 
 #### Code coverage reports
 [Jest](https://jestjs.io/) has been configured to generate a full code coverage report in HTML format on every time run of the `test` command. This coverage report can be found at `/coverage/lcov-report` after tests are run successfully.
 
-At the time of this writing, *this application features a 100% code coverage*.
+At the time of this writing, **this application features a 100% code coverage**.
 
 ## Improvements and enhancements
-Given the POC nature of this application, there's still a lot of room for improvement. A detailed rundown of all improvement and enhancement ideas is [available here](docs/todo.md).
+Given the POC nature of this application, there's still a lot of room for improvement. A detailed rundown of all improvement and enhancement ideas is [available here](docs/TODO.md).
 
 ## Distributed under the MIT License
 
