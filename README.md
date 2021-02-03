@@ -1,8 +1,8 @@
 # CPU Load Monitor
 
-[![Build Status][build-badge]][build]
-[![Code Coverage][coverage-badge]][coverage]
-[![MIT License][license-badge]][license]
+[![Build Status](https://travis-ci.com/deeleman/cpu-load-monitor.svg?branch=master)](https://travis-ci.com/deeleman/cpu-load-monitor)
+[![Coverage Status](https://coveralls.io/repos/github/deeleman/cpu-load-monitor/badge.svg?branch=master)](https://coveralls.io/github/deeleman/cpu-load-monitor?branch=master)
+[![GitHub license](https://img.shields.io/github/license/deeleman/react-shopping-cart.svg)](https://github.com/deeleman/react-shopping-cart/blob/master/LICENSE)
 
 A humble CPU load monitoring app built in TypeScript, React, SASS and Node.js. The application implements a local server with a single GET endpoint where consumers can fetch last-minute data about current CPU average load from their local system.
 
