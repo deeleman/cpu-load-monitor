@@ -1,11 +1,15 @@
 # CPU Load Monitor
 
-A humble CPU load monitoring app built in TypeScript, React, SASS and Node.js. The application implements a local server with a single GET endpoint where consumers can fetch last-minute data about current CPU average load from the local system.
+[![Build Status][build-badge]][build]
+[![Code Coverage][coverage-badge]][coverage]
+[![MIT License][license-badge]][license]
+
+A humble CPU load monitoring app built in TypeScript, React, SASS and Node.js. The application implements a local server with a single GET endpoint where consumers can fetch last-minute data about current CPU average load from their local system.
 
 This data is consumed by a convenient UI displaying CPU load time series and stats. The UI also supports editing the application monitoring settings.
 
 ## TL;DR
-In a system provided with at least Node.js v12, install dependencies with `yarn`, then run `yarn serve` and open up a browser window pointing to [http://localhost:8080](http://localhost:8080). *Happy monitoring!*
+In a system provided with at least `node.js v12.x`, install dependencies with `yarn`, then run `yarn serve` and open up a browser window pointing to [http://localhost:8080](http://localhost:8080). *Happy monitoring!*
 
 ## Setting up your environment
 The minimum requirements for running this project, either on development or production mode, and its development scripts are `node v12.16.0` and `npm v.6.14.15`, or later versions. Probably this project will run seamlessly on older versions of `node` and `npm` but the use of the latest [LTS versions](https://nodejs.org/) is advised.
@@ -18,7 +22,7 @@ As a first step prior to spawn either a development environment or a production 
 ## Building the CPU Monitoring App
 Once all the project dependencies have been successfully installed (see _Installing dependencies_ above) you can build and consume the project simply by running `yarn serve` (or `npm run serve`) in your terminal console.
 
-This will run the CRA `build` script under the hood to compile the UI layer. Moreover, it will spawn a Node.js instance serving as a web server for both the front-end and backend layers.
+This will run the CRA `build` script under the hood to compile the UI layer. Moreover, it will spawn a Node.js instance serving as a forwarding server for both the front-end and backend layers.
 
 You can then check the application by pointing your browser to [http://localhost:8080](http://localhost:8080).
 
@@ -26,7 +30,7 @@ You can then check the application by pointing your browser to [http://localhost
 When checking a a local site under `http://localhost `, Chrome will force its secure flavor under `https`. Please [follow these steps](https://support.google.com/chrome/thread/53901111?hl=en) to bypass this should the browser does not load the site.
 
 ### Customising the server port in use
-Some basic settings such as the server port in use can be configured by [editing by hand](server/settings.js) the `server/settings.js` file. As a general principle, you will probably want to to leave the default configured settings as is and the port number is the only setting you might want to update eventually, if needed.
+Some basic settings such as the server port in use can be customized by [editing by hand](server/settings.js) the `server/settings.js` file. As a general principle, you will probably want to to leave the default configured settings _as is_ and the port number is the only setting you might want to update eventually, if needed.
 
 ## Firing up a development environment
 In case you need to bootstrap the application in _dev mode_, a set of scripts leveraging the CRA built-in commands have been made available for your convenience.
@@ -47,12 +51,7 @@ The code in this application is audited with ESLint to ensure code consistency. 
 * `yarn test:server`: Executes the test runner (with interactive watch mode disabled though) for the backend server application.
 
 #### Code coverage reports
-[Jest](https://jestjs.io/) has been configured to generate a full code coverage report in HTML format on every time run of the `test` command. This coverage report can be found at `/coverage/lcov-report` after tests are run successfully.
-
-At the time of this writing, **this application features a 100% code coverage**.
-
-## Improvements and enhancements
-Given the POC nature of this application, there's still a lot of room for improvement. A detailed rundown of all improvement and enhancement ideas is [available here](docs/TODO.md).
+[Jest](https://jestjs.io/) has been configured to generate a full code coverage report in HTML format on every time run of the `test` command. This coverage report can be found at `/coverage/lcov-report` after tests are successfully run.
 
 ## Distributed under the MIT License
 
